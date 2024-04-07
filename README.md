@@ -1,5 +1,9 @@
 ## Start the project
 
+[Точка входа в приложение](https://github.com/vitmvit/pet-helper-api-gateway-service)
+
+Клиентская часть приложения для конечного пользователя приложения Pet-Helper.
+
 The project is started with the regular ionic commands.
 
 1. Run `npm install` to install all dependencies.
