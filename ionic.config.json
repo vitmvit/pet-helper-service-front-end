@@ -1,0 +1,7 @@
+{
+  "name": "pet-helper-service-front-end",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
