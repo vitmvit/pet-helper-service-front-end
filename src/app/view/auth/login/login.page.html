@@ -16,24 +16,22 @@
     <ion-card-header>
       <ion-card-title>Error!</ion-card-title>
       <ion-card-subtitle>{{errorModel.status}}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      {{errorModel.message}}
-    </ion-card-content>
-  </ion-card>
+      </ion-card-header>
+      <ion-card-content>
+  {{errorModel.message}}
+  </ion-card-content>
+</ion-card>
   }
   <ion-list style="width: 80%; margin: auto">
     <ion-item>
       <ion-input [(ngModel)]="login" labelPlacement="floating" placeholder="example@mail.com">
         <div slot="label">Логин
-<!--          <ion-text color="danger">(Required)</ion-text>-->
         </div>
       </ion-input>
     </ion-item>
     <ion-item>
       <ion-input [(ngModel)]="password" type="password" labelPlacement="floating" placeholder="1234567">
         <div slot="label">Пароль
-<!--          <ion-text color="danger">(Required)</ion-text>-->
         </div>
       </ion-input>
     </ion-item>
@@ -43,4 +41,3 @@
     <ion-button (click)="singIn()">Вход</ion-button>
   </ion-content>
 </ion-content>
-

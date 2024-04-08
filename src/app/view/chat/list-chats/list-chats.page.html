@@ -1,0 +1,44 @@
+<ion-content [fullscreen]="true">
+  <ion-header class="ion-no-border" style="z-index: 9999; position:fixed; top: 0; width: 100%">
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button default-href="home"></ion-back-button>
+      </ion-buttons>
+      <ion-buttons slot="primary">
+        <ion-button (click)="logOff()" fill="clear">
+          <ion-icon name="exit-outline" size="large" slot="end"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>Pet-Helper</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-list [inset]="true" style="margin-top: 50px;">
+    @for (item of chats; track item.id) {
+    @if (item.status === "CLOSED"){
+    <ion-card (click)="toChat(item.id)" color="light">
+      <ion-card-header>
+        <ion-card-title>{{item.updateDate}}</ion-card-title>
+        <ion-card-subtitle>{{item.supportName}}</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+    } @else{
+    <ion-card (click)="toChat(item.id)">
+      <ion-card-header>
+        <ion-card-title>{{item.updateDate}}</ion-card-title>
+        <ion-card-subtitle>{{item.supportName}}</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+    }
+    } @empty {
+    <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>
+    }
+  </ion-list>
+</ion-content>
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="ion-text-center">
+    <ion-button (click)=" createChat()" mode="ios">
+      Написать о проблеме
+      <ion-icon name="add-outline" slot="end"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

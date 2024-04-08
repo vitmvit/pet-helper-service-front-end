@@ -1,0 +1,52 @@
+<ion-content [fullscreen]="true">
+  <ion-header class="ion-no-border" style="z-index: 9999; position:fixed; top: 0; width: 100%">
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button default-href="list-chats"></ion-back-button>
+      </ion-buttons>
+      <ion-buttons slot="primary">
+        <ion-button (click)="logOff()" fill="clear">
+          <ion-icon name="exit-outline" size="large" slot="end"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>Pet-Helper</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-list style="margin-top: 50px;background-image: url(assets/img/bg-chat.jpg);">
+    @for (item of listMessages; track item.id) {
+    @if(item.senderName == this.currentSupport){
+    <ion-card style="width: 80%">
+      <ion-card-header>
+        <ion-card-subtitle>{{item.createDate}}</ion-card-subtitle>
+        <ion-card-title>{{item.content}}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+    }@else{
+    <ion-card style="width: 80%; margin-left: 17%">
+      <ion-card-header>
+        <ion-card-subtitle>{{item.createDate}}</ion-card-subtitle>
+        <ion-card-title>{{item.content}}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+    }
+    }
+  </ion-list>
+  <ion-title class="ion-text-center">
+    {{closedMessage}}
+  </ion-title>
+  <br>
+  <br>
+  <br>
+</ion-content>
+<ion-footer class="ion-no-border" style="position: absolute; bottom: 0">
+  <ion-toolbar class="ion-text-center" style="width: 95%; margin: auto">
+    <ion-item>
+      <ion-input [(ngModel)]="newMessage" label="Опишите проблему" labelPlacement="floating" placeholder="Сообщение"
+                 slot="start"
+                 style="margin-bottom: 10px"></ion-input>
+      <ion-button (click)="createMessage()" fill="clear" slot="end">
+        <ion-icon name="paper-plane" size="large"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

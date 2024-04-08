@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {SessionService} from "../../service/session.service";
 import {Router} from "@angular/router";
 
@@ -7,10 +7,16 @@ import {Router} from "@angular/router";
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage{
+export class HomePage {
 
   constructor(private sessionService: SessionService,
-              private router: Router) {}
+              private router: Router) {
+    sessionService.checkLogin();
+  }
+
+  toSupport() {
+    this.router.navigateByUrl('list-chats');
+  }
 
   logOff() {
     this.sessionService.clear();

@@ -7,9 +7,9 @@ import {Observable} from "rxjs";
 @Injectable({providedIn: "root"})
 export class SessionService {
 
-  private check = "usr_check";
-  private token = "usr_token";
-  private login = "usr_login";
+  private check = "user_check";
+  private token = "user_token";
+  private login = "user_login";
   private time = 1000 * 60 * 60 * 24;
   private path = "/";
 

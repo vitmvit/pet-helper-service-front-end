@@ -23,6 +23,24 @@ const routes: Routes = [
     path: 'signup',
     loadChildren: () => import('./view/auth/signup/signup.module').then(m => m.SignupPageModule)
   },
+  {
+    path: 'list-chats',
+    loadChildren: () => import('./view/chat/list-chats/list-chats.module').then(m => m.ListChatsPageModule)
+  },
+  // chat
+  {
+    path: 'chat',
+    loadChildren: () => import('./view/chat/chat/chat.module').then(m => m.ChatPageModule)
+  },
+  {
+    path: 'chat/:id',
+    loadChildren: () => import('./view/chat/chat/chat.module').then(m => m.ChatPageModule)
+  },
+  {
+    path: 'chat-list',
+    loadChildren: () => import('./view/chat/chat/chat.module').then(m => m.ChatPageModule)
+  },
+  {path: '', redirectTo: 'chat-list', pathMatch: 'full'}
 ];
 
 @NgModule({
