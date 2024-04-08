@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 
 const routes: Routes = [
   {
@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./view/login/login.module').then(m => m.LoginPageModule)
+    loadChildren: () => import('./view/auth/login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'index',
@@ -21,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'signup',
-    loadChildren: () => import('./view/signup/signup.module').then(m => m.SignupPageModule)
+    loadChildren: () => import('./view/auth/signup/signup.module').then(m => m.SignupPageModule)
   },
 ];
 

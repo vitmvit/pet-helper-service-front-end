@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {SessionService} from "../../service/session.service";
-import {AuthService} from "../../service/auth.service";
-import {SignInModel} from "../../model/entity/sign.in.model";
+import {SessionService} from "../../../service/session.service";
+import {AuthService} from "../../../service/auth.service";
+import {SignInModel} from "../../../model/entity/sign.in.model";
 import {JwtHelperService} from '@auth0/angular-jwt';
-import {ErrorModel} from "../../model/entity/error.model";
-import {UserService} from "../../service/user.service";
+import {ErrorModel} from "../../../model/entity/error.model";
+import {UserService} from "../../../service/user.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit{
+export class LoginPage implements OnInit {
 
   login!: string;
   password!: string;

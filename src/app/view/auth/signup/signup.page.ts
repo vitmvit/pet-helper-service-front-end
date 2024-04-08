@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ErrorModel} from "../../model/entity/error.model";
-import {SessionService} from "../../service/session.service";
-import {AuthService} from "../../service/auth.service";
-import {UserService} from "../../service/user.service";
+import {ErrorModel} from "../../../model/entity/error.model";
+import {SessionService} from "../../../service/session.service";
+import {AuthService} from "../../../service/auth.service";
+import {UserService} from "../../../service/user.service";
 import {Router} from "@angular/router";
 import {JwtHelperService} from "@auth0/angular-jwt";
-import {SignUpModel} from "../../model/entity/sign.up.model";
+import {SignUpModel} from "../../../model/entity/sign.up.model";
 
 @Component({
   selector: 'app-signup',
