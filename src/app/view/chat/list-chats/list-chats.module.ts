@@ -7,13 +7,15 @@ import {IonicModule} from '@ionic/angular';
 import {ListChatsPageRoutingModule} from './list-chats-routing.module';
 
 import {ListChatsPage} from './list-chats.page';
+import {ChatPageModule} from "../chat/chat.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ListChatsPageRoutingModule
+    ListChatsPageRoutingModule,
+    ChatPageModule
   ],
   declarations: [ListChatsPage]
 })

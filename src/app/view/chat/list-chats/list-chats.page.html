@@ -17,14 +17,14 @@
     @if (item.status === "CLOSED"){
     <ion-card (click)="toChat(item.id)" color="light">
       <ion-card-header>
-        <ion-card-title>{{item.updateDate}}</ion-card-title>
+        <ion-card-title>{{item.updateDate | dateFormat}}</ion-card-title>
         <ion-card-subtitle>{{item.supportName}}</ion-card-subtitle>
       </ion-card-header>
     </ion-card>
     } @else{
     <ion-card (click)="toChat(item.id)">
       <ion-card-header>
-        <ion-card-title>{{item.updateDate}}</ion-card-title>
+        <ion-card-title>{{item.updateDate | dateFormat}}</ion-card-title>
         <ion-card-subtitle>{{item.supportName}}</ion-card-subtitle>
       </ion-card-header>
     </ion-card>

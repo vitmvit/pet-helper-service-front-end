@@ -17,14 +17,14 @@
     @if(item.senderName == this.currentSupport){
     <ion-card style="width: 80%">
       <ion-card-header>
-        <ion-card-subtitle>{{item.createDate}}</ion-card-subtitle>
+        <ion-card-subtitle>{{item.createDate | dateFormat}}</ion-card-subtitle>
         <ion-card-title>{{item.content}}</ion-card-title>
       </ion-card-header>
     </ion-card>
     }@else{
     <ion-card style="width: 80%; margin-left: 17%">
       <ion-card-header>
-        <ion-card-subtitle>{{item.createDate}}</ion-card-subtitle>
+        <ion-card-subtitle>{{item.createDate | dateFormat}}</ion-card-subtitle>
         <ion-card-title>{{item.content}}</ion-card-title>
       </ion-card-header>
     </ion-card>

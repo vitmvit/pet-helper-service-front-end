@@ -7,6 +7,7 @@ import {IonicModule} from '@ionic/angular';
 import {ChatPageRoutingModule} from './chat-routing.module';
 
 import {ChatPage} from './chat.page';
+import {DateFormatPipe} from "../../../service/date.format";
 
 @NgModule({
   imports: [
@@ -15,7 +16,10 @@ import {ChatPage} from './chat.page';
     IonicModule,
     ChatPageRoutingModule
   ],
-  declarations: [ChatPage]
+  exports: [
+    DateFormatPipe
+  ],
+  declarations: [ChatPage, DateFormatPipe]
 })
 export class ChatPageModule {
 }
