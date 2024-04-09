@@ -99,7 +99,7 @@ export class SessionService {
     if (this.cookieService.check(key)) {
       return this.cookieService.get(key);
     } else {
-      this.router.navigateByUrl("login");
+      // this.router.navigateByUrl("login");
     }
   }
 
