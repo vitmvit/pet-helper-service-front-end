@@ -53,6 +53,10 @@ export class ChatPage implements OnInit {
         this.currentSupport = chatModel.supportName
         this.currentChat = chatModel
 
+        this.listMessages = chatModel.messageList.sort((a, b) => {
+          return new Date(a.createDate).getTime() - new Date(b.createDate).getTime();
+        });
+
         if (this.currentChat.status == "CLOSED") {
           this.closedMessage = "Данный диалог завершен!"
         }
