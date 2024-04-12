@@ -4,11 +4,6 @@
       <ion-buttons slot="start">
         <ion-back-button default-href="list-chats"></ion-back-button>
       </ion-buttons>
-      <ion-buttons slot="primary">
-        <ion-button (click)="logOff()" fill="clear">
-          <ion-icon name="exit-outline" size="large" slot="end"></ion-icon>
-        </ion-button>
-      </ion-buttons>
       <ion-title>Pet-Helper</ion-title>
     </ion-toolbar>
   </ion-header>
@@ -38,7 +33,7 @@
   <br>
   <br>
 </ion-content>
-<ion-footer class="ion-no-border" style="position: absolute; bottom: 0">
+<ion-footer class="ion-no-border" style="position: absolute; bottom: 0; background-color: white">
   <ion-toolbar class="ion-text-center" style="width: 95%; margin: auto">
     <ion-item>
       <ion-input [(ngModel)]="newMessage" label="Опишите проблему" labelPlacement="floating" placeholder="Сообщение"

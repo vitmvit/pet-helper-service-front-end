@@ -40,7 +40,11 @@ const routes: Routes = [
     path: 'chat-list',
     loadChildren: () => import('./view/chat/chat/chat.module').then(m => m.ChatPageModule)
   },
-  {path: '', redirectTo: 'chat-list', pathMatch: 'full'}
+  {path: '', redirectTo: 'chat-list', pathMatch: 'full'},
+  {
+    path: 'security',
+    loadChildren: () => import('./view/security/security.module').then(m => m.SecurityPageModule)
+  }
 ];
 
 @NgModule({

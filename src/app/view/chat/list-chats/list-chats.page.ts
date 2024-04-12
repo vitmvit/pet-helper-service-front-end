@@ -5,6 +5,7 @@ import {ChatService} from "../../../service/chat.service";
 import {ChatModel} from "../../../model/entity/chat.model";
 import {UserService} from "../../../service/user.service";
 import {ChatCreateDto} from "../../../model/dto/chat.create.dto";
+import {MenuController} from "@ionic/angular";
 
 @Component({
   selector: 'app-list-chats',
@@ -18,6 +19,7 @@ export class ListChatsPage implements OnInit {
   constructor(private sessionService: SessionService,
               private chatService: ChatService,
               private userService: UserService,
+              private menu: MenuController,
               private router: Router) {
     sessionService.checkLogin();
   }
@@ -26,7 +28,10 @@ export class ListChatsPage implements OnInit {
     // Получение списка чатов пользователя
     this.chatService.getMyChats(this.sessionService.getLogin()).subscribe({
       next: (chatModel) => {
-        this.chats = chatModel.sort((a, b) => b.status.localeCompare(a.status));
+        this.chats = chatModel.sort((a, b) => {
+          return new Date(b.updateDate).getTime() - new Date(a.updateDate).getTime();
+        });
+        this.chats = this.chats.sort((a, b) => b.status.localeCompare(a.status));
       }
     });
   }
@@ -43,6 +48,19 @@ export class ListChatsPage implements OnInit {
 
   toChat(id: number) {
     this.router.navigate(['chat', id]);
+  }
+
+  toSecurity() {
+    this.closeMenu()
+    this.router.navigateByUrl('security');
+  }
+
+  openMenu() {
+    this.menu.open("list-chats-menu")
+  }
+
+  closeMenu() {
+    this.menu.close("list-chats-menu")
   }
 
   logOff() {

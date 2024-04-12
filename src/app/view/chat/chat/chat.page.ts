@@ -77,9 +77,4 @@ export class ChatPage implements OnInit {
   toChats() {
     this.router.navigateByUrl('list-chats');
   }
-
-  logOff() {
-    this.sessionService.clear();
-    this.router.navigateByUrl('index');
-  }
 }

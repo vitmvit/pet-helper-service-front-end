@@ -1,44 +1,144 @@
-<ion-content [fullscreen]="true">
-  <ion-header class="ion-no-border" style="z-index: 9999; position:fixed; top: 0; width: 100%">
-    <ion-toolbar color="primary">
-      <ion-buttons slot="start">
-        <ion-back-button default-href="home"></ion-back-button>
-      </ion-buttons>
-      <ion-buttons slot="primary">
-        <ion-button (click)="logOff()" fill="clear">
-          <ion-icon name="exit-outline" size="large" slot="end"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-      <ion-title>Pet-Helper</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-list [inset]="true" style="margin-top: 50px;">
-    @for (item of chats; track item.id) {
-    @if (item.status === "CLOSED"){
-    <ion-card (click)="toChat(item.id)" color="light">
-      <ion-card-header>
-        <ion-card-title>{{item.updateDate | dateFormat}}</ion-card-title>
-        <ion-card-subtitle>{{item.supportName}}</ion-card-subtitle>
-      </ion-card-header>
-    </ion-card>
-    } @else{
-    <ion-card (click)="toChat(item.id)">
-      <ion-card-header>
-        <ion-card-title>{{item.updateDate | dateFormat}}</ion-card-title>
-        <ion-card-subtitle>{{item.supportName}}</ion-card-subtitle>
-      </ion-card-header>
-    </ion-card>
-    }
-    } @empty {
-    <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>
-    }
-  </ion-list>
-</ion-content>
-<ion-footer class="ion-no-border">
-  <ion-toolbar class="ion-text-center">
-    <ion-button (click)=" createChat()" mode="ios">
-      Написать о проблеме
-      <ion-icon name="add-outline" slot="end"></ion-icon>
-    </ion-button>
-  </ion-toolbar>
-</ion-footer>
+<ion-app>
+  <ion-menu contentId="main-content" menuId="list-chats-menu">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Настройки</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list [inset]="true">
+        <ion-item (click)="toSecurity()" lines="none">
+          <ion-icon color="primary" name="settings-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Безопасность</h2>
+            <p>Смените пароль</p>
+          </ion-label>
+        </ion-item>
+        <ion-item (click)="logOff()" lines="none">
+          <ion-icon color="primary" name="exit-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Выход</h2>
+            <p>Завершение сессии</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <div class="ion-page" id="main-content">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-back-button default-href="home"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Техподдержка</ion-title>
+        <ion-buttons slot="end">
+          <ion-icon (click)="openMenu()" class="ion-padding" name="menu-outline" size="large"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list [inset]="true">
+        @for (item of chats; track item.id) {
+        @if (item.status === "CLOSED"){
+        <ion-card (click)="toChat(item.id)" color="light">
+          <ion-card-header>
+            <ion-card-title>{{item.updateDate | dateFormat}}</ion-card-title>
+            <ion-card-subtitle>{{item.supportName}}</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+        } @else{
+        <ion-card (click)="toChat(item.id)">
+          <ion-card-header>
+            <ion-card-title>{{item.updateDate | dateFormat}}</ion-card-title>
+            <ion-card-subtitle>{{item.supportName}}</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+        }
+        } @empty {
+        <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>
+        }
+      </ion-list>
+    </ion-content>
+  </div>
+  <ion-fab (click)=" createChat()" horizontal="end" slot="fixed" vertical="bottom">
+    <ion-fab-button>
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-app>
+<!--<ion-content [fullscreen]="true">-->
+<!--  <ion-header class="ion-no-border" style="z-index: 9999; position:fixed; top: 0; width: 100%">-->
+<!--    <ion-toolbar color="primary">-->
+<!--      <ion-buttons slot="start">-->
+<!--        <ion-back-button default-href="home"></ion-back-button>-->
+<!--      </ion-buttons>-->
+<!--      <ion-buttons slot="primary">-->
+<!--        <ion-button (click)="logOff()" fill="clear">-->
+<!--          <ion-icon name="exit-outline" size="large" slot="end"></ion-icon>-->
+<!--        </ion-button>-->
+<!--      </ion-buttons>-->
+<!--      <ion-title>Pet-Helper</ion-title>-->
+<!--    </ion-toolbar>-->
+<!--  </ion-header>-->
+<!--  <ion-list [inset]="true" style="margin-top: 50px;">-->
+<!--    @for (item of chats; track item.id) {-->
+<!--    @if (item.status === "CLOSED"){-->
+<!--    <ion-card (click)="toChat(item.id)" color="light">-->
+<!--      <ion-card-header>-->
+<!--        <ion-card-title>{{item.updateDate | dateFormat}}</ion-card-title>-->
+<!--        <ion-card-subtitle>{{item.supportName}}</ion-card-subtitle>-->
+<!--      </ion-card-header>-->
+<!--    </ion-card>-->
+<!--    } @else{-->
+<!--    <ion-card (click)="toChat(item.id)">-->
+<!--      <ion-card-header>-->
+<!--        <ion-card-title>{{item.updateDate | dateFormat}}</ion-card-title>-->
+<!--        <ion-card-subtitle>{{item.supportName}}</ion-card-subtitle>-->
+<!--      </ion-card-header>-->
+<!--    </ion-card>-->
+<!--    }-->
+<!--    } @empty {-->
+<!--    <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>-->
+<!--    }-->
+<!--  </ion-list>-->
+<!--</ion-content>-->
+<!--<ion-footer class="ion-no-border">-->
+<!--  <ion-toolbar class="ion-text-center">-->
+<!--    <ion-button (click)=" createChat()" mode="ios">-->
+<!--      Написать о проблеме-->
+<!--      <ion-icon name="add-outline" slot="end"></ion-icon>-->
+<!--    </ion-button>-->
+<!--  </ion-toolbar>-->
+<!--</ion-footer>-->
+<!--<ion-fab (click)=" createChat()" slot="fixed" vertical="bottom" horizontal="end">-->
+<!--  <ion-fab-button>-->
+<!--    <ion-icon name="add-outline"></ion-icon>-->
+<!--  </ion-fab-button>-->
+<!--</ion-fab>-->
+
+<!--<ion-menu _ngcontent-ng-c35190106="" menuid="menu" contentid="main-content2" ng-reflect-menu-id="menu"-->
+<!--          ng-reflect-content-id="main-content2" role="navigation" aria-label="menu"-->
+<!--          class="md menu-type-overlay menu-enabled menu-side-start hydrated show-menu" content-id="main-content2"-->
+<!--          menu-id="menu" side="start" tabindex="0">-->
+<!--  <ion-header _ngcontent-ng-c35190106="" role="none" class="md header-md header-collapse-none hydrated">&lt;!&ndash;&ndash;&gt;-->
+<!--    <ion-toolbar _ngcontent-ng-c35190106="" color="primary" ng-reflect-color="primary"-->
+<!--                 class="toolbar-title-default ion-color ion-color-primary md in-toolbar hydrated">-->
+<!--      <ion-title _ngcontent-ng-c35190106="" class="md title-default hydrated">Настройки</ion-title>-->
+<!--    </ion-toolbar>-->
+<!--  </ion-header>-->
+<!--  <ion-content _ngcontent-ng-c35190106="" class="md content-ltr hydrated"-->
+<!--               style="&#45;&#45;offset-top: 0px; &#45;&#45;offset-bottom: 0px;">-->
+<!--    <ion-list _ngcontent-ng-c35190106="" ng-reflect-inset="true" role="list" class="md list-md list-inset hydrated">-->
+<!--      <ion-item _ngcontent-ng-c35190106="" lines="none" ng-reflect-lines="none"-->
+<!--                class="item-has-start-slot item md item-lines-none item-fill-none in-list hydrated item-label"-->
+<!--                role="listitem">-->
+<!--        <ion-icon _ngcontent-ng-c35190106="" name="exit-outline" slot="start" color="primary"-->
+<!--                  ng-reflect-name="exit-outline" ng-reflect-color="primary" role="img"-->
+<!--                  class="md ion-color ion-color-primary hydrated"></ion-icon>-->
+<!--        <ion-label _ngcontent-ng-c35190106="" class="sc-ion-label-md-h sc-ion-label-md-s md hydrated"><h2-->
+<!--          _ngcontent-ng-c35190106="">Выход</h2>-->
+<!--          <p _ngcontent-ng-c35190106="">Завершение сессии</p></ion-label>-->
+<!--      </ion-item>-->
+<!--    </ion-list>-->
+<!--  </ion-content>-->
+<!--</ion-menu>-->

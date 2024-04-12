@@ -1,0 +1,82 @@
+<ion-app>
+  <ion-menu contentId="main-content" menuId="security-menu">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Настройки</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list [inset]="true">
+        <ion-item (click)="toSupport()" lines="none">
+          <ion-icon color="primary" name="help-buoy-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Помощь</h2>
+            <p>Напишите о проблеме</p>
+          </ion-label>
+        </ion-item>
+        <ion-item (click)="logOff()" lines="none">
+          <ion-icon color="primary" name="exit-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Выход</h2>
+            <p>Завершение сессии</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <div class="ion-page" id="main-content">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-back-button default-href="home"></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-icon (click)="openMenu()" class="ion-padding" name="menu-outline" size="large"></ion-icon>
+        </ion-buttons>
+        <ion-title>Безопасность</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <br>
+      <ion-img alt="auth" class="img" src="../../../assets/img/password.jpg"/>
+      <br>
+      <br>
+      @if(this.errorModel !== undefined){
+      <ion-card color="danger">
+        <ion-card-header>
+          <ion-card-title>Error!</ion-card-title>
+          <ion-card-subtitle>{{errorModel.status}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+      {{errorModel.message}}
+      </ion-card-content>
+    </ion-card>
+      }
+      <ion-list style="width: 80%; margin: auto">
+        <ion-item>
+          <ion-input [(ngModel)]="oldPassword" labelPlacement="floating" placeholder="7654321" type="password">
+            <div slot="label">Текущий пароль
+            </div>
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input [(ngModel)]="newPassword" labelPlacement="floating" placeholder="1234567" type="password">
+            <div slot="label">Новый пароль
+            </div>
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input [(ngModel)]="confirmPassword" labelPlacement="floating" placeholder="1234567" type="password">
+            <div slot="label">Подтверждение
+            </div>
+          </ion-input>
+        </ion-item>
+      </ion-list>
+      <br>
+      <ion-content (click)="updatePassword()" style="text-align: center;">
+        <ion-button>Обновить данные</ion-button>
+      </ion-content>
+    </ion-content>
+  </div>
+</ion-app>
+

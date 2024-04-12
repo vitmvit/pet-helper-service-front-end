@@ -67,10 +67,6 @@ export class SignupPage implements OnInit {
     console.log("singIn")
   }
 
-  // singUp() {
-  //   console.log("singUp")
-  // }
-
   // Метод для получения логина из JWT-токена
   getLoginInToken(tkn: string): string {
     const helper = new JwtHelperService();
