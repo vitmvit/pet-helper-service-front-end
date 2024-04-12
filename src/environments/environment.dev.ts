@@ -1,8 +1,8 @@
 export const rest = {
-  apiHost: 'http://192.168.1.28:8080'
+  apiHost: 'http://localhost:8080'
 }
 
 export const environment = {
-  production: true,
+  production: false,
   apiHostUrl: rest.apiHost
 };

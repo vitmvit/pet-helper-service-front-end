@@ -4,18 +4,20 @@ import {Observable} from "rxjs";
 import {UserModel} from "../model/entity/user.model";
 import {SessionService} from "./session.service";
 import {PasswordUpdateDto} from "../model/dto/password.updare.dto";
+import {ApiService} from "./api.service";
 
 @Injectable({providedIn: "root"})
 export class UserService {
 
   constructor(private httpClient: HttpClient,
+              private apiService: ApiService,
               private sessionService: SessionService) {
   }
 
   // Метод для получения информации о текущем пользователе
   me(login: string): Observable<UserModel> {
     return this.httpClient.get<UserModel>(
-      "http://localhost:8080/api/v1/users/" + login,
+      this.apiService.getApiHost + "/api/v1/users/" + login,
       this.sessionService.getHeaderToken()
     );
   }
@@ -23,7 +25,7 @@ export class UserService {
   // Метод для обновления пароля пользователя
   passwordUpdate(dto: PasswordUpdateDto): Observable<UserModel> {
     return this.httpClient.put<UserModel>(
-      "http://localhost:8080/api/v1/users/password",
+      this.apiService.getApiHost + "/api/v1/users/password",
       dto,
       this.sessionService.getHeaderToken()
     );

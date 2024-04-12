@@ -35,6 +35,7 @@ export class HomePage {
   }
 
   logOff() {
+    this.closeMenu()
     this.sessionService.clear();
     this.router.navigateByUrl('index');
   }

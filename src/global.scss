@@ -61,5 +61,16 @@
 }
 
 .background-image {
-  --background: url(assets/img/bg-chat.jpg) 0 0/100% 100% no-repeat;
+  --background: none;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 1)), url(assets/img/bg-chat.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
+.no-scroll {
+  ion-content {
+    --overflow: hidden
+  }
+}
+

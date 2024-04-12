@@ -64,6 +64,7 @@ export class ListChatsPage implements OnInit {
   }
 
   logOff() {
+    this.closeMenu()
     this.sessionService.clear();
     this.router.navigateByUrl('index');
   }

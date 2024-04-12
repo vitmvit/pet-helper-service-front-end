@@ -73,10 +73,15 @@
         </ion-item>
       </ion-list>
       <br>
-      <ion-content (click)="updatePassword()" style="text-align: center;">
+      <ion-content id="update-alert" style="text-align: center;">
         <ion-button>Обновить данные</ion-button>
       </ion-content>
     </ion-content>
+    <ion-alert
+      [buttons]="alertButtons"
+      header="Обновить пароль?"
+      trigger="update-alert"
+    ></ion-alert>
   </div>
 </ion-app>
 

@@ -20,6 +20,22 @@ export class SecurityPage implements OnInit {
 
   errorModel!: ErrorModel | undefined;
 
+  public alertButtons = [
+    {
+      text: 'Отмена',
+      role: 'cancel',
+      handler: () => {
+      },
+    },
+    {
+      text: 'Обновить',
+      role: 'confirm',
+      handler: () => {
+        this.updatePassword()
+      },
+    },
+  ];
+
   constructor(private sessionService: SessionService,
               private authService: AuthService,
               private userService: UserService,
