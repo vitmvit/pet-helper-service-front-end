@@ -1,4 +1,5 @@
 <ion-app>
+  <!--  menu-->
   <ion-menu contentId="main-content" menuId="list-chats-menu">
     <ion-header>
       <ion-toolbar color="primary">
@@ -24,7 +25,9 @@
       </ion-list>
     </ion-content>
   </ion-menu>
+  <!--  /menu-->
   <div class="ion-page" id="main-content">
+    <!--    title-->
     <ion-header>
       <ion-toolbar color="primary">
         <ion-buttons slot="start">
@@ -36,6 +39,7 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
+    <!--    /title-->
     <ion-content color="light">
       <ion-list [inset]="true" mode="ios">
         @for (item of chats; track item.id) {

@@ -40,11 +40,29 @@ const routes: Routes = [
     path: 'chat-list',
     loadChildren: () => import('./view/chat/chat/chat.module').then(m => m.ChatPageModule)
   },
+  // security
   {path: '', redirectTo: 'chat-list', pathMatch: 'full'},
   {
     path: 'security',
     loadChildren: () => import('./view/security/security.module').then(m => m.SecurityPageModule)
-  }
+  },
+  // pet-properties
+  {
+    path: 'pet-properties',
+    loadChildren: () => import('./view/pet-properties/pet-properties.module').then(m => m.PetPropertiesPageModule)
+  },
+  {
+    path: 'pet-properties/:id',
+    loadChildren: () => import('./view/pet-properties/pet-properties.module').then(m => m.PetPropertiesPageModule)
+  },
+  {
+    path: 'pet-properties',
+    loadChildren: () => import('./view/pet-properties/pet-properties.module').then(m => m.PetPropertiesPageModule)
+  },
+  {
+    path: 'pet-create',
+    loadChildren: () => import('./view/pet-create/pet-create.module').then(m => m.PetCreatePageModule)
+  },
 ];
 
 @NgModule({

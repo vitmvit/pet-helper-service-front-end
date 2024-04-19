@@ -1,0 +1,10 @@
+<ion-card (click)="toPet(this.recordVal.id)" mode="ios">
+  <img alt="pet" src="{{this.base64}}"/>
+  <ion-card-header>
+    <ion-card-title>{{this.recordVal.name}}</ion-card-title>
+    <ion-card-subtitle>{{this.recordVal.fullName}}</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    {{this.recordVal.description}}
+  </ion-card-content>
+</ion-card>

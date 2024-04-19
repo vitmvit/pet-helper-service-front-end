@@ -1,4 +1,5 @@
 <ion-app>
+  <!--  menu-->
   <ion-menu contentId="main-content" menuId="security-menu">
     <ion-header>
       <ion-toolbar color="primary">
@@ -24,7 +25,9 @@
       </ion-list>
     </ion-content>
   </ion-menu>
+  <!--  /menu-->
   <div class="ion-page" id="main-content">
+    <!--  title-->
     <ion-header>
       <ion-toolbar color="primary">
         <ion-buttons slot="start">
@@ -36,11 +39,13 @@
         <ion-title>Безопасность</ion-title>
       </ion-toolbar>
     </ion-header>
+    <!--    /title-->
     <ion-content>
       <br>
       <ion-img alt="auth" class="img" src="../../../assets/img/password.jpg"/>
       <br>
       <br>
+      <!--      error module-->
       @if(this.errorModel !== undefined){
       <ion-card color="danger">
         <ion-card-header>
@@ -52,6 +57,7 @@
       </ion-card-content>
     </ion-card>
       }
+      <!--      /error module-->
       <ion-list style="width: 80%; margin: auto">
         <ion-item>
           <ion-input [(ngModel)]="oldPassword" labelPlacement="floating" placeholder="7654321" type="password">
@@ -73,10 +79,12 @@
         </ion-item>
       </ion-list>
       <br>
+      <!--      button update-->
       <ion-content id="update-alert" style="text-align: center;">
         <ion-button>Обновить данные</ion-button>
       </ion-content>
     </ion-content>
+    <!--    /button update-->
     <ion-alert
       [buttons]="alertButtons"
       header="Обновить пароль?"
