@@ -1,4 +1,4 @@
-## Start the project
+## pet-helper-service-front-end
 
 [Точка входа в приложение](https://github.com/vitmvit/pet-helper-api-gateway-service)
 
