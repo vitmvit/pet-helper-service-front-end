@@ -1,0 +1,139 @@
+<ion-app>
+  <!--  menu-->
+  <ion-menu contentId="main-content" menuId="pet-properties-menu">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Настройки</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list [inset]="true">
+        <ion-item (click)="toSupport()" lines="none">
+          <ion-icon color="primary" name="help-buoy-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Помощь</h2>
+            <p>Напишите о проблеме</p>
+          </ion-label>
+        </ion-item>
+        <ion-item (click)="toSecurity()" lines="none">
+          <ion-icon color="primary" name="settings-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Безопасность</h2>
+            <p>Смените пароль</p>
+          </ion-label>
+        </ion-item>
+        <ion-item (click)="logOff()" lines="none">
+          <ion-icon color="primary" name="exit-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Выход</h2>
+            <p>Завершение сессии</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <!--  /menu-->
+  <div class="ion-page" id="main-content">
+    <!--    title-->
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-back-button default-href="home"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Добавьте питомца</ion-title>
+        <ion-buttons slot="end">
+          <ion-icon (click)="openMenu()" class="ion-padding" name="menu-outline" size="large"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <!--    /title-->
+    <ion-content>
+      <!--      add avatar-->
+      <ion-card mode="ios">
+        <ion-card-header>
+          <app-image-component
+            [imageUuid]=this.imageUuid
+            [recordId]=this.recordId
+          ></app-image-component>
+        </ion-card-header>
+        <ion-card-content>
+          <input (change)="this.fileSelect($event)"
+                 accept="image/*"
+                 class="form-control"
+                 type="file"/>
+        </ion-card-content>
+      </ion-card>
+      <!--      /add avatar-->
+      <!--      error module-->
+      @if(this.errorModel !== undefined){
+      <ion-card color="danger">
+        <ion-card-header>
+          <ion-card-title>Error!</ion-card-title>
+          <ion-card-subtitle>{{errorModel.status}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+      {{errorModel.message}}
+      </ion-card-content>
+    </ion-card>
+      }
+      <!--      /error module-->
+      <ion-card mode="ios">
+        <ion-card-header>
+          <ion-card-subtitle color="dark" mode="md">Обязательные поля:</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-input [(ngModel)]="name" labelPlacement="floating" mode="md" placeholder="Евгеныч" type="text">
+            <div slot="label">Имя записи
+            </div>
+          </ion-input>
+        </ion-card-content>
+      </ion-card>
+      <ion-card mode="ios">
+        <ion-card-header>
+          <ion-card-subtitle color="dark" mode="md">Не обязательные поля:</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <!--          select sex-->
+          <ion-select [(ngModel)]="this.sex" label="Пол" placeholder="Пол питомца">
+            @for (item of typeSex; track item) {
+            <ion-select-option value="{{item}}">{{item}}</ion-select-option>
+            }
+          </ion-select>
+          <!--          /select sex-->
+          <!--          select birthday-->
+          <div class="item ios item-lines-none item-fill-none hydrated item-label" id="open-modal2">
+            <ion-label>Дата рождения</ion-label>
+            <ion-note slot="end">{{dataBirthday | date}}</ion-note>
+          </div>
+          <ion-modal [cssClass]="'bottom-end'" trigger="open-modal2">
+            <ng-template>
+              <ion-datetime
+                [(ngModel)]="dataBirthday"
+                [showDefaultButtons]="true"
+                presentation="date"
+                size="cover"
+              ></ion-datetime>
+            </ng-template>
+          </ion-modal>
+          <!--          /select birthday-->
+          <!--          select full name-->
+          <ion-input [(ngModel)]="fullName" labelPlacement="floating" mode="md" placeholder="Евгеныч Второй"
+                     type="text">
+            <div slot="label">Полное имя</div>
+          </ion-input>
+          <!--          /select full name-->
+          <!--          description-->
+          <ion-input [(ngModel)]="description" labelPlacement="floating" mode="md" placeholder="Пятнистый" type="text">
+            <div slot="label">Заметки</div>
+          </ion-input>
+          <!--          /description-->
+        </ion-card-content>
+      </ion-card>
+      <!--      button create record-->
+      <div style="text-align: center; padding-bottom: 10px">
+        <ion-button (click)="saveRecord()" mode="md">Создать запись</ion-button>
+      </div>
+      <!--      /button create record-->
+    </ion-content>
+  </div>
+</ion-app>

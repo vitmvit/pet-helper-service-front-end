@@ -15,7 +15,6 @@ export class IndexPage {
   }
 
   singIn() {
-    console.log("singIn")
     if (this.sessionService.getToken() != null && this.sessionService.getLogin() != null) {
       this.router.navigateByUrl('home');
     } else {
@@ -24,7 +23,6 @@ export class IndexPage {
   }
 
   singUp() {
-    console.log("singUp")
     this.router.navigateByUrl('signup');
   }
 }

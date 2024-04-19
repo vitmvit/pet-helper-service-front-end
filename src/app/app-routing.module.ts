@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 
 const routes: Routes = [
   {
@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./view/login/login.module').then(m => m.LoginPageModule)
+    loadChildren: () => import('./view/auth/login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'index',
@@ -21,7 +21,47 @@ const routes: Routes = [
   },
   {
     path: 'signup',
-    loadChildren: () => import('./view/signup/signup.module').then(m => m.SignupPageModule)
+    loadChildren: () => import('./view/auth/signup/signup.module').then(m => m.SignupPageModule)
+  },
+  {
+    path: 'list-chats',
+    loadChildren: () => import('./view/chat/list-chats/list-chats.module').then(m => m.ListChatsPageModule)
+  },
+  // chat
+  {
+    path: 'chat',
+    loadChildren: () => import('./view/chat/chat/chat.module').then(m => m.ChatPageModule)
+  },
+  {
+    path: 'chat/:id',
+    loadChildren: () => import('./view/chat/chat/chat.module').then(m => m.ChatPageModule)
+  },
+  {
+    path: 'chat-list',
+    loadChildren: () => import('./view/chat/chat/chat.module').then(m => m.ChatPageModule)
+  },
+  // security
+  {path: '', redirectTo: 'chat-list', pathMatch: 'full'},
+  {
+    path: 'security',
+    loadChildren: () => import('./view/security/security.module').then(m => m.SecurityPageModule)
+  },
+  // pet-properties
+  {
+    path: 'pet-properties',
+    loadChildren: () => import('./view/pet-properties/pet-properties.module').then(m => m.PetPropertiesPageModule)
+  },
+  {
+    path: 'pet-properties/:id',
+    loadChildren: () => import('./view/pet-properties/pet-properties.module').then(m => m.PetPropertiesPageModule)
+  },
+  {
+    path: 'pet-properties',
+    loadChildren: () => import('./view/pet-properties/pet-properties.module').then(m => m.PetPropertiesPageModule)
+  },
+  {
+    path: 'pet-create',
+    loadChildren: () => import('./view/pet-create/pet-create.module').then(m => m.PetCreatePageModule)
   },
 ];
 
