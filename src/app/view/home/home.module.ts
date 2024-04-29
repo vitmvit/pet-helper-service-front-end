@@ -8,7 +8,6 @@ import {HomePageRoutingModule} from './home-routing.module';
 import {PetPropertiesPageModule} from "../pet-properties/pet-properties.module";
 import {CardComponentComponent} from "../component/card-component/card-component.component";
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +15,9 @@ import {CardComponentComponent} from "../component/card-component/card-component
     IonicModule,
     HomePageRoutingModule,
     PetPropertiesPageModule
+  ],
+  exports: [
+    CardComponentComponent
   ],
   declarations: [HomePage, CardComponentComponent]
 })

@@ -1,4 +1,4 @@
-export class ImageDto {
+export class ImageModel {
 
   public generatedName: string;
   public originalName: string;

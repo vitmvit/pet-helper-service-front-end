@@ -43,7 +43,13 @@
         <ion-title>Pet-Helper</ion-title>
       </ion-toolbar>
       <ion-toolbar color="primary" mode="ios">
-        <ion-searchbar></ion-searchbar>
+        <ion-searchbar
+          (ionInput)="getMyRecords()"
+          [(ngModel)]="input"
+          animated=""
+          placeholder="Имя записи"
+          show-cancel-button="focus"
+        ></ion-searchbar>
       </ion-toolbar>
     </ion-header>
     <!--    /title-->
@@ -53,7 +59,7 @@
       [record] = item
       ></app-card-component>
       } @empty {
-      <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>
+      <ion-img class="img" src="../../../assets/img/empty.jpg"/>
       }
     </ion-content>
   </div>

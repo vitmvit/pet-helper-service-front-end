@@ -4,8 +4,8 @@ import {Observable} from "rxjs";
 import {SessionService} from "./session.service";
 import {ApiService} from "./api.service";
 import {RecordModel} from "../model/entity/record.model";
-import {RecordCreateDto} from "../model/dto/record.create.dto";
-import {RecordUpdateDto} from "../model/dto/record.update.dto";
+import {RecordCreateDto} from "../model/create/record.create.dto";
+import {RecordUpdateDto} from "../model/update/record.update.dto";
 
 @Injectable({providedIn: "root"})
 export class RecordService {

@@ -41,10 +41,13 @@
           <ion-back-button (click)="toHome()" default-href=""></ion-back-button>
         </ion-buttons>
         @if(this.record){
-        <ion-title>{{this.record.name}}</ion-title>
+        <!-- Если запись существует, отображается ее имя -->
+       <ion-title>{{this.record.name}}</ion-title>
         }@else{
+        <!-- Иначе отображается "Pet-Helper" -->
         <ion-title>Pet-Helper</ion-title>
         }
+        <!-- Кнопка для удаления записи -->
         <ion-buttons id="delete-alert" slot="end">
           <ion-icon class="ion-padding" name="trash-outline" size="large"></ion-icon>
         </ion-buttons>
@@ -57,6 +60,7 @@
     <ion-content>
       <ion-card mode="ios">
         <ion-card-header>
+          <!-- Компонент для отображения изображения -->
           <app-image-component
             [imageUuid]=this.imageUuid
             [recordId]=this.recordId
@@ -67,7 +71,8 @@
           <ion-card-subtitle>{{this.fullName}}</ion-card-subtitle>
         </ion-card-content>
       </ion-card>
-      @if(this.sex != null && this.dataBirthday != null && this.fullName != null && this.description != null){
+      <!-- Если заполнены поля пола, даты рождения, полного имени или описания -->
+      @if(this.sex != null || this.dataBirthday != null || this.fullName != null || this.description != null){
       <ion-card mode="ios" style="display: {{this.displayData}}">
           <ion-card-content>
             <!--        sex-->
@@ -151,19 +156,27 @@
         <ion-card-content>
           <ion-card-title color="dark" mode="md">Аватар записи:</ion-card-title>
           <br>
-          <input (change)="this.fileSelect($event)"
-                 accept="image/*"
-                 class="form-control"
-                 type="file"/>
+          <input (change)="this.fileSelect($event)" accept="image/*" class="form-control" type="file"/>
         </ion-card-content>
       </ion-card>
+      @if(this.displayEdit =="none"){
+      <ion-card mode="ios">
+        <ion-card-content class="ion-text-center">
+          <ion-card-title color="dark" mode="md">Родословная:</ion-card-title>
+          <br>
+          <ion-button mode="md" (click)="record && record.hasPedigree ? toPedigree() : toCreatePedigree()">
+      {{ record && record.hasPedigree ? 'Перейти к просмотру' : 'Добавить в родословную' }}
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+      }
     </ion-content>
   </div>
   <ion-fab horizontal="end" slot="fixed" vertical="bottom">
     @if(this.displayEdit =="none"){
     <ion-fab-button>
       <ion-icon name="chevron-up-circle"></ion-icon>
-    </ion-fab-button>
+     </ion-fab-button>
     <ion-fab-list side="top">
       <ion-fab-button (click)="toEditRecord()">
         <ion-icon name="pencil-outline"></ion-icon>

@@ -5,7 +5,7 @@ import {UserService} from "../../../service/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MessageModel} from "../../../model/entity/message.model";
 import {ChatModel} from "../../../model/entity/chat.model";
-import {MessageCreateDto} from "../../../model/dto/message.create.dto";
+import {MessageCreateDto} from "../../../model/create/message.create.dto";
 
 @Component({
   selector: 'app-chat',

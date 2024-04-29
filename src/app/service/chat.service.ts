@@ -3,8 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {SessionService} from "./session.service";
 import {ChatModel} from "../model/entity/chat.model";
-import {MessageCreateDto} from "../model/dto/message.create.dto";
-import {ChatCreateDto} from "../model/dto/chat.create.dto";
+import {MessageCreateDto} from "../model/create/message.create.dto";
+import {ChatCreateDto} from "../model/create/chat.create.dto";
 import {ApiService} from "./api.service";
 
 

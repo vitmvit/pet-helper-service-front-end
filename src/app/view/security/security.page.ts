@@ -5,7 +5,7 @@ import {Router} from "@angular/router";
 import {ErrorModel} from "../../model/entity/error.model";
 import {AuthService} from "../../service/auth.service";
 import {UserService} from "../../service/user.service";
-import {PasswordUpdateDto} from "../../model/dto/password.updare.dto";
+import {PasswordUpdateDto} from "../../model/update/password.updare.dto";
 
 @Component({
   selector: 'app-security',

@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {UserModel} from "../model/entity/user.model";
 import {SessionService} from "./session.service";
-import {PasswordUpdateDto} from "../model/dto/password.updare.dto";
+import {PasswordUpdateDto} from "../model/update/password.updare.dto";
 import {ApiService} from "./api.service";
 
 @Injectable({providedIn: "root"})

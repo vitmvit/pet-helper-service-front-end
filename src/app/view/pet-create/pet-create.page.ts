@@ -5,7 +5,7 @@ import {MenuController} from "@ionic/angular";
 import {RecordService} from "../../service/record.service";
 import {Router} from "@angular/router";
 import {RecordModel} from "../../model/entity/record.model";
-import {RecordCreateDto} from "../../model/dto/record.create.dto";
+import {RecordCreateDto} from "../../model/create/record.create.dto";
 import {ErrorModel} from "../../model/entity/error.model";
 
 @Component({
@@ -70,7 +70,7 @@ export class PetCreatePage implements OnInit {
           }
         })
       }
-      this.router.navigateByUrl('home');
+      this.router.navigate(['home', "reload"]);
     } else {
       this.errorModel = new ErrorModel("Необходимо заполнить все обязательные поля!", 404);
     }

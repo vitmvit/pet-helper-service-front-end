@@ -6,7 +6,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {RecordModel} from "../../model/entity/record.model";
 import {ImageService} from "../../service/image.service";
 import {ErrorModel} from "../../model/entity/error.model";
-import {RecordUpdateDto} from "../../model/dto/record.update.dto";
+import {RecordUpdateDto} from "../../model/update/record.update.dto";
+import {PedigreeService} from "../../service/pedigree.service";
+import {PedigreeCreateDto} from "../../model/create/pedigree.create";
 
 @Component({
   selector: 'app-pet-properties',
@@ -50,12 +52,16 @@ export class PetPropertiesPage implements OnInit {
 
   constructor(private sessionService: SessionService,
               private imageService: ImageService,
+              private pedigreeService: PedigreeService,
               private menu: MenuController,
               private recordService: RecordService,
               private router: Router,
               private route: ActivatedRoute) {
     sessionService.checkLogin();
-    route.params.subscribe(params => this.id = params["id"]);
+    route.params.subscribe(params => {
+      this.id = params["id"];
+      this.getRecord();
+    });
   }
 
   ngOnInit(): void {
@@ -64,6 +70,10 @@ export class PetPropertiesPage implements OnInit {
     this.displayEdit = "none"
     this.displayData = "block"
 
+    this.getRecord();
+  }
+
+  getRecord() {
     this.recordService.getRecordById(this.id).subscribe(
       {
         next: (record) => {
@@ -131,6 +141,18 @@ export class PetPropertiesPage implements OnInit {
         }
       })
     this.toEditRecord()
+  }
+
+  toCreatePedigree() {
+    this.pedigreeService.createPedigree(new PedigreeCreateDto(this.recordId, null, null, null, null)).subscribe({
+      next: (model) => {
+        this.router.navigate(['pedigree', this.recordId]);
+      }
+    })
+  }
+
+  toPedigree() {
+    this.router.navigate(['pedigree', this.recordId]);
   }
 
   saveImage() {

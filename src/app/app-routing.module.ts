@@ -12,6 +12,10 @@ const routes: Routes = [
     loadChildren: () => import('./view/home/home.module').then(m => m.HomePageModule)
   },
   {
+    path: 'home/:id',
+    loadChildren: () => import('./view/home/home.module').then(m => m.HomePageModule)
+  },
+  {
     path: 'login',
     loadChildren: () => import('./view/auth/login/login.module').then(m => m.LoginPageModule)
   },
@@ -63,6 +67,22 @@ const routes: Routes = [
     path: 'pet-create',
     loadChildren: () => import('./view/pet-create/pet-create.module').then(m => m.PetCreatePageModule)
   },
+  {
+    path: 'pedigree',
+    loadChildren: () => import('./view/pedigree/pedigree.module').then(m => m.PedigreePageModule)
+  },
+  {
+    path: 'pedigree/:id',
+    loadChildren: () => import('./view/pedigree/pedigree.module').then(m => m.PedigreePageModule)
+  },
+  {
+    path: 'pedigree-create',
+    loadChildren: () => import('./view/pedigree-create/pedigree-create.module').then(m => m.PedigreeCreatePageModule)
+  },
+  {
+    path: 'pedigree-create/:id',
+    loadChildren: () => import('./view/pedigree-create/pedigree-create.module').then(m => m.PedigreeCreatePageModule)
+  }
 ];
 
 @NgModule({

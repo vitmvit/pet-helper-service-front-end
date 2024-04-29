@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {ChatService} from "../../../service/chat.service";
 import {ChatModel} from "../../../model/entity/chat.model";
 import {UserService} from "../../../service/user.service";
-import {ChatCreateDto} from "../../../model/dto/chat.create.dto";
+import {ChatCreateDto} from "../../../model/create/chat.create.dto";
 import {MenuController} from "@ionic/angular";
 
 @Component({
