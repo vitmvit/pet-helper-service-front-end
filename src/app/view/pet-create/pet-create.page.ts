@@ -75,28 +75,4 @@ export class PetCreatePage implements OnInit {
       this.errorModel = new ErrorModel("Необходимо заполнить все обязательные поля!", 404);
     }
   }
-
-  toSupport() {
-    this.closeMenu()
-    this.router.navigateByUrl('list-chats');
-  }
-
-  toSecurity() {
-    this.closeMenu()
-    this.router.navigateByUrl('security');
-  }
-
-  openMenu() {
-    this.menu.open("pet-properties-menu")
-  }
-
-  closeMenu() {
-    this.menu.close("pet-properties-menu")
-  }
-
-  logOff() {
-    this.closeMenu()
-    this.sessionService.clear();
-    this.router.navigateByUrl('index');
-  }
 }

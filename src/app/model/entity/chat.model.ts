@@ -7,6 +7,7 @@ export class ChatModel {
   public userName: string; // Имя пользователя
   public messageList: MessageModel[]; // Список сообщений
   public status: string; // Статус чата
+  public type: string;
   public createDate: string; // Дата создания
   public updateDate: string; // Дата обновления
 
@@ -15,6 +16,7 @@ export class ChatModel {
               userName: string,
               messageList: MessageModel[],
               status: string,
+              type: string,
               createDate: string,
               updateDate: string) {
     this.id = id;
@@ -22,6 +24,7 @@ export class ChatModel {
     this.userName = userName;
     this.messageList = messageList;
     this.status = status;
+    this.type = type;
     this.createDate = createDate;
     this.updateDate = updateDate;
   }

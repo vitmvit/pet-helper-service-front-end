@@ -24,6 +24,13 @@ export class ChatService {
     );
   }
 
+  getMySupportChats(type: string): Observable<ChatModel[]> {
+    return this.httpClient.get<ChatModel[]>(
+      this.apiService.getApiHost + "/api/v1/chats/type/" + type,
+      this.sessionService.getHeaderToken()
+    );
+  }
+
   // Получить чат по его идентификатору
   getChatById(id: number): Observable<ChatModel> {
     return this.httpClient.get<ChatModel>(

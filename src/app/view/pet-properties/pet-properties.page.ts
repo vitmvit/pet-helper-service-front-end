@@ -9,6 +9,8 @@ import {ErrorModel} from "../../model/entity/error.model";
 import {RecordUpdateDto} from "../../model/update/record.update.dto";
 import {PedigreeService} from "../../service/pedigree.service";
 import {PedigreeCreateDto} from "../../model/create/pedigree.create";
+import {StateService} from "../../service/state.service";
+import {StateDictionaryModel} from "../../model/entity/state.dictionary.model";
 
 @Component({
   selector: 'app-pet-properties',
@@ -22,6 +24,7 @@ export class PetPropertiesPage implements OnInit {
   avatar!: File;
   imageUuid: string = "";
   recordId!: number;
+  listStateDictionary!: StateDictionaryModel[];
   typeSex!: string[]
   sex!: string
   name!: string
@@ -53,6 +56,7 @@ export class PetPropertiesPage implements OnInit {
   constructor(private sessionService: SessionService,
               private imageService: ImageService,
               private pedigreeService: PedigreeService,
+              private stateDictionaryService: StateService,
               private menu: MenuController,
               private recordService: RecordService,
               private router: Router,
@@ -61,6 +65,7 @@ export class PetPropertiesPage implements OnInit {
     route.params.subscribe(params => {
       this.id = params["id"];
       this.getRecord();
+      this.getStateDictionaries();
     });
   }
 
@@ -71,6 +76,7 @@ export class PetPropertiesPage implements OnInit {
     this.displayData = "block"
 
     this.getRecord();
+    this.getStateDictionaries();
   }
 
   getRecord() {
@@ -98,30 +104,11 @@ export class PetPropertiesPage implements OnInit {
   }
 
   toHome() {
-    this.closeMenu()
     this.router.navigateByUrl('home');
   }
 
   fileSelect(event: any) {
     this.avatar = event.target.files[0];
-  }
-
-  toSupport() {
-    this.closeMenu()
-    this.router.navigateByUrl('list-chats');
-  }
-
-  toSecurity() {
-    this.closeMenu()
-    this.router.navigateByUrl('security');
-  }
-
-  openMenu() {
-    this.menu.open("pet-properties-menu")
-  }
-
-  closeMenu() {
-    this.menu.close("pet-properties-menu")
   }
 
   deleteRecord() {
@@ -181,9 +168,17 @@ export class PetPropertiesPage implements OnInit {
     }
   }
 
-  logOff() {
-    this.closeMenu()
-    this.sessionService.clear();
-    this.router.navigateByUrl('index');
+  getStateDictionaries() {
+    this.stateDictionaryService.getDictionaries(this.id).subscribe(
+      {
+        next: (list) => {
+          this.listStateDictionary = list
+        }
+      }
+    )
+  }
+
+  toCreateDictionary() {
+    this.router.navigate(['state-dictionary-create', this.recordId]);
   }
 }

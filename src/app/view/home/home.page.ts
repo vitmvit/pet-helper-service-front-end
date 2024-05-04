@@ -16,7 +16,6 @@ export class HomePage implements OnInit {
   input!: string;
   reload!: string;
   listRecords!: RecordModel[];
-  private refreshIntervalId: any;
 
   constructor(private sessionService: SessionService,
               private menu: MenuController,
@@ -32,13 +31,17 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {
-      this.getMyRecords();
+    // Получение списка записей при инициализации компонента
+    this.getMyRecords();
   }
 
+  // Метод для получения списка записей пользователя
   getMyRecords() {
     if (this.input) {
+      // Если есть введенное значение поиска, фильтруем записи по названию
       this.listRecords = this.listRecords.filter(record => record.name.includes(this.input));
     } else {
+      // Если нет введенного значения поиска, получаем все записи пользователя
       this.recordService.getMyRecords(this.sessionService.getLogin()).subscribe({
         next: (listRecord) => {
           this.listRecords = listRecord.sort((a, b) => {
@@ -46,48 +49,63 @@ export class HomePage implements OnInit {
           });
         },
         error: () => {
+          // Обработка ошибки
         }
-      })
+      });
     }
   }
 
+  // Метод для получения base64-строки аватара по UUID
   getBase64(uuid: string) {
     this.imageService.getAvatar(uuid).subscribe(
       {
         next: (response) => {
-          return response
+          return response;
         },
         error: () => {
+          // Обработка ошибки
         }
       }
-    )
+    );
   }
 
+  // Метод для перехода к созданию новой записи
   toCreateRecord() {
-    this.closeMenu()
+    this.closeMenu();
     this.router.navigateByUrl('pet-create');
   }
 
+  // Метод для перехода к списку чатов
   toSupport() {
-    this.closeMenu()
+    this.closeMenu();
     this.router.navigateByUrl('list-chats');
   }
 
+  // Метод для перехода к списку медицинских чатов
+  toVet() {
+    this.closeMenu();
+    this.router.navigateByUrl('list-medical-chats');
+  }
+
+  // Метод для перехода к настройкам безопасности
   toSecurity() {
-    this.closeMenu()
+    this.closeMenu();
     this.router.navigateByUrl('security');
   }
 
+  // Метод для открытия меню
   openMenu() {
-    this.menu.open("home-menu")
+    this.menu.open("home-menu");
   }
 
+  // Метод для закрытия меню
   closeMenu() {
-    this.menu.close("home-menu")
+    this.menu.close("home-menu");
   }
 
+  // Метод для выхода из приложения
   logOff() {
-    this.closeMenu()
+    this.closeMenu();
     this.sessionService.clear();
     this.router.navigateByUrl('index');
   }

@@ -8,6 +8,7 @@ import {PetCreatePageRoutingModule} from './pet-create-routing.module';
 
 import {PetCreatePage} from './pet-create.page';
 import {PetPropertiesPageModule} from "../pet-properties/pet-properties.module";
+import {HomePageModule} from "../home/home.module";
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import {PetPropertiesPageModule} from "../pet-properties/pet-properties.module";
     FormsModule,
     IonicModule,
     PetCreatePageRoutingModule,
-    PetPropertiesPageModule
+    PetPropertiesPageModule,
+    HomePageModule
   ],
   declarations: [PetCreatePage]
 })

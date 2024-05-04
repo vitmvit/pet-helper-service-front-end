@@ -5,7 +5,6 @@ import {FormsModule} from '@angular/forms';
 import {HomePage} from './home.page';
 
 import {HomePageRoutingModule} from './home-routing.module';
-import {PetPropertiesPageModule} from "../pet-properties/pet-properties.module";
 import {CardComponentComponent} from "../component/card-component/card-component.component";
 
 @NgModule({
@@ -13,8 +12,7 @@ import {CardComponentComponent} from "../component/card-component/card-component
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule,
-    PetPropertiesPageModule
+    HomePageRoutingModule
   ],
   exports: [
     CardComponentComponent

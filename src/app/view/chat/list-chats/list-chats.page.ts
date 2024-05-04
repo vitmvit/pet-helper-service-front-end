@@ -28,16 +28,18 @@ export class ListChatsPage implements OnInit {
     // Получение списка чатов пользователя
     this.chatService.getMyChats(this.sessionService.getLogin()).subscribe({
       next: (chatModel) => {
-        this.chats = chatModel.sort((a, b) => {
-          return new Date(b.updateDate).getTime() - new Date(a.updateDate).getTime();
-        });
+        this.chats = chatModel
+          .filter((chat) => chat.type == "SUPPORT") // Фильтруем чаты по типу SUPPORT
+          .sort((a, b) => {
+            return new Date(b.updateDate).getTime() - new Date(a.updateDate).getTime();
+          });
         this.chats = this.chats.sort((a, b) => b.status.localeCompare(a.status));
       }
     });
   }
 
   createChat() {
-    this.chatService.createChat(new ChatCreateDto("", this.sessionService.getLogin())).subscribe({
+    this.chatService.createChat(new ChatCreateDto("", this.sessionService.getLogin(), "SUPPORT")).subscribe({
       next: (chatModel) => {
         this.router.navigate(['chat', chatModel.id]);
       },

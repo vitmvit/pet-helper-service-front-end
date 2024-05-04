@@ -1,0 +1,106 @@
+<ion-app>
+  <div class="ion-page" id="main-content">
+    <!--    title-->
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-back-button (click)="toBack()" default-href=""></ion-back-button>
+        </ion-buttons>
+        @if(this.dictionary){
+        <!-- Если запись существует, отображается ее имя -->
+        <ion-title>{{this.dictionary.name}}</ion-title>
+        }@else{
+        <!-- Иначе отображается "Pet-Helper" -->
+        <ion-title>Pet-Helper</ion-title>
+        }
+        <!-- Кнопка для удаления записи -->
+        <ion-buttons (click)="deleteDictionary()" id="delete-alert" slot="end">
+          <ion-icon class="ion-padding" name="trash-outline" size="large"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <!--    /title-->
+    <ion-content>
+      <ion-card mode="ios">
+        @if(this.imageBase64){
+        <ion-card-header>
+          <ion-img class="img" alt="auth" src="{{this.imageBase64}}"/>
+          </ion-card-header>
+        }
+        <ion-card-content>
+          @if(this.dictionary){
+          <ion-card-title>{{this.dictionary.name}}</ion-card-title>
+            <ion-card-subtitle>{{this.dictionary.description}}</ion-card-subtitle>
+          }
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card mode="ios" style="display: {{display}}">
+        <ion-card-header>
+          Данные с {{beginPeriod | date}} по {{endPeriod | date}}
+        </ion-card-header>
+        <ion-card-content>
+          <canvas #lineCanvas style="position: relative; height:20vh;"></canvas>
+        </ion-card-content>
+      </ion-card>
+
+      <div class="ion-text-center">
+        <ion-button (click)="setOpen(true)" mode="md">Добавить контрольную точку</ion-button>
+      </div>
+      <br>
+
+      @for (item of stateList; track item) {
+      <ion-item class="ion-padding-horizontal">
+        <ion-label>
+          <h2>{{item.dateCreated | date}}</h2>
+            <h4>{{item.value}}</h4>
+            <p>{{item.description}}</p>
+          </ion-label>
+        </ion-item>
+      } @empty {
+      <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>
+      }
+
+      <!-- Модальное окно для выбора родителя -->
+      <ion-modal [isOpen]="isModalOpen">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-buttons slot="end">
+                <ion-button (click)="confirm($event)">Ок</ion-button>
+              </ion-buttons>
+              <ion-buttons slot="start">
+                <ion-button (click)="cancel()">Отмена</ion-button>
+              </ion-buttons>
+              <ion-title>Введите данные</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <div class="item ios item-lines-none hydrated item-label" id="open-modal2"
+                 style="border: #989aa2; border-radius: 4px; padding: 3px">
+              <ion-label>Дата контрольной точки:</ion-label>
+              <ion-note slot="end">{{dateForCheck | date}}</ion-note>
+            </div>
+            <ion-modal [cssClass]="'bottom-end'" style="background-color: rgba(0, 51, 255, 0.2)" trigger="open-modal2">
+              <ng-template>
+                <ion-datetime
+                  [(ngModel)]="dateForCheck"
+                  [showDefaultButtons]="true"
+                  presentation="date"
+                  size="cover"
+                ></ion-datetime>
+              </ng-template>
+            </ion-modal>
+            <ion-input [(ngModel)]="value" labelPlacement="floating" mode="md" placeholder="10.0" type="text">
+              <ion-label slot="label">Значение выбранного дня:</ion-label>
+            </ion-input>
+            <ion-input [(ngModel)]="description" labelPlacement="floating" mode="md" placeholder="День прекрасен"
+                       type="text">
+              <ion-label slot="label">Заметки к записи:</ion-label>
+            </ion-input>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-content>
+  </div>
+</ion-app>

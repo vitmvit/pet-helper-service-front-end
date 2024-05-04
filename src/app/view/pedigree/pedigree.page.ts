@@ -182,24 +182,6 @@ export class PedigreePage implements OnInit {
     }
   }
 
-  toSupport() {
-    this.closeMenu()
-    this.router.navigateByUrl('list-chats');
-  }
-
-  toSecurity() {
-    this.closeMenu()
-    this.router.navigateByUrl('security');
-  }
-
-  openMenu() {
-    this.menu.open("pedigree-create-menu")
-  }
-
-  closeMenu() {
-    this.menu.close("pedigree-create-menu")
-  }
-
   toParent(id: number) {
     this.router.navigate(['pet-properties', id]);
   }
@@ -210,11 +192,5 @@ export class PedigreePage implements OnInit {
 
   toBack() {
     this.loc.back();
-  }
-
-  logOff() {
-    this.closeMenu()
-    this.sessionService.clear();
-    this.router.navigateByUrl('index');
   }
 }

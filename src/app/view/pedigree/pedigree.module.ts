@@ -8,6 +8,7 @@ import {PedigreePageRoutingModule} from './pedigree-routing.module';
 
 import {PedigreePage} from './pedigree.page';
 import {PetPropertiesPageModule} from "../pet-properties/pet-properties.module";
+import {HomePageModule} from "../home/home.module";
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import {PetPropertiesPageModule} from "../pet-properties/pet-properties.module";
     FormsModule,
     IonicModule,
     PedigreePageRoutingModule,
-    PetPropertiesPageModule
+    PetPropertiesPageModule,
+    HomePageModule
   ],
   declarations: [PedigreePage]
 })

@@ -8,18 +8,21 @@ import {PetPropertiesPageRoutingModule} from './pet-properties-routing.module';
 
 import {PetPropertiesPage} from './pet-properties.page';
 import {ImageComponentComponent} from "../component/image-component/image-component.component";
+import {HomePageModule} from "../home/home.module";
+import {StateComponentComponent} from "../component/state-component/state-component.component";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PetPropertiesPageRoutingModule
+    PetPropertiesPageRoutingModule,
+    HomePageModule
   ],
   exports: [
     ImageComponentComponent
   ],
-  declarations: [PetPropertiesPage, ImageComponentComponent]
+  declarations: [PetPropertiesPage, ImageComponentComponent, StateComponentComponent]
 })
 export class PetPropertiesPageModule {
 }

@@ -63,10 +63,12 @@ const routes: Routes = [
     path: 'pet-properties',
     loadChildren: () => import('./view/pet-properties/pet-properties.module').then(m => m.PetPropertiesPageModule)
   },
+  // pet-create
   {
     path: 'pet-create',
     loadChildren: () => import('./view/pet-create/pet-create.module').then(m => m.PetCreatePageModule)
   },
+  // pedigree
   {
     path: 'pedigree',
     loadChildren: () => import('./view/pedigree/pedigree.module').then(m => m.PedigreePageModule)
@@ -75,6 +77,7 @@ const routes: Routes = [
     path: 'pedigree/:id',
     loadChildren: () => import('./view/pedigree/pedigree.module').then(m => m.PedigreePageModule)
   },
+  // pedigree-create
   {
     path: 'pedigree-create',
     loadChildren: () => import('./view/pedigree-create/pedigree-create.module').then(m => m.PedigreeCreatePageModule)
@@ -82,6 +85,33 @@ const routes: Routes = [
   {
     path: 'pedigree-create/:id',
     loadChildren: () => import('./view/pedigree-create/pedigree-create.module').then(m => m.PedigreeCreatePageModule)
+  },
+  // list-medical-chats
+  {
+    path: 'list-medical-chats',
+    loadChildren: () => import('./view/chat/list-medical-chats/list-medical-chats.module').then(m => m.ListMedicalChatsPageModule)
+  },
+  // state-dictionary
+  {
+    path: 'state-dictionary',
+    loadChildren: () => import('./view/state-dictionary/state-dictionary.module').then(m => m.StateDictionaryPageModule)
+  },
+  {
+    path: 'state-dictionary/:id',
+    loadChildren: () => import('./view/state-dictionary/state-dictionary.module').then(m => m.StateDictionaryPageModule)
+  },
+  {
+    path: 'state-dictionary/:id/:uuid',
+    loadChildren: () => import('./view/state-dictionary/state-dictionary.module').then(m => m.StateDictionaryPageModule)
+  },
+  // state-dictionary-create
+  {
+    path: 'state-dictionary-create',
+    loadChildren: () => import('./view/state-dictionary-create/state-dictionary-create.module').then(m => m.StateDictionaryCreatePageModule)
+  },
+  {
+    path: 'state-dictionary-create/:id',
+    loadChildren: () => import('./view/state-dictionary-create/state-dictionary-create.module').then(m => m.StateDictionaryCreatePageModule)
   }
 ];
 
