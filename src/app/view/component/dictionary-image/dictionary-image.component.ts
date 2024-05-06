@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SessionService} from "../../../service/session.service";
 import {ImageService} from "../../../service/image.service";
 import {ImageModel} from "../../../model/entity/image.model";
+import {ErrorModel} from "../../../model/entity/error.model";
 
 @Component({
   selector: 'app-dictionary-image',
@@ -12,6 +13,7 @@ export class DictionaryImageComponent implements OnInit {
 
   recordVal!: ImageModel;
   base64!: string;
+  errorModel!: ErrorModel | undefined;
   @Output() itemClick: EventEmitter<any> = new EventEmitter();
 
   constructor(private sessionService: SessionService,
@@ -42,13 +44,14 @@ export class DictionaryImageComponent implements OnInit {
 
   // Метод для получения base64-строки изображения по UUID
   getBase64(uuid: string) {
+    this.errorModel = undefined
     this.imageService.getStateImage(uuid).subscribe(
       {
         next: (response) => {
           this.base64 = response;
         },
-        error: () => {
-          // Обработка ошибки
+        error: (fault2) => {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault2.status);
         }
       }
     );

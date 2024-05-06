@@ -3,7 +3,7 @@ export class StateDictionaryModel {
   public id: number;
   public recordId: number;
   public name: string;
-  public isActive: boolean;
+  public active: boolean;
   public isConstant: boolean;
   public uuid: string;
   public description: string;
@@ -12,7 +12,7 @@ export class StateDictionaryModel {
   constructor(id: number,
               recordId: number,
               name: string,
-              isActive: boolean,
+              active: boolean,
               isConstant: boolean,
               uuid: string,
               description: string,
@@ -20,7 +20,7 @@ export class StateDictionaryModel {
     this.id = id;
     this.recordId = recordId;
     this.name = name;
-    this.isActive = isActive;
+    this.active = active;
     this.isConstant = isConstant;
     this.uuid = uuid;
     this.description = description;

@@ -48,19 +48,24 @@ export class LoginPage implements OnInit {
                 }
               },
               error: (fault2) => {
-                this.errorModel = new ErrorModel("Double check your details!", fault2.status);
+                this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault2.status);
               }
             });
+          } else {
+            this.errorModel = new ErrorModel("Перепроверьте введенные данные!", 404);
           }
         } else {
-          this.errorModel = new ErrorModel("No access!", 302);
+          this.errorModel = new ErrorModel("У вашей роли нет доступа к данному функционалу", 302);
         }
       },
       error: (fault1) => {
-        this.errorModel = new ErrorModel("Double check your details!", fault1.status);
+        if (fault1.status == 500) {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault1.status);
+        } else {
+          this.errorModel = new ErrorModel("Перепроверьте введенные данные!", 404);
+        }
       }
     });
-    console.log("singIn")
   }
 
   // Метод для получения логина из JWT-токена

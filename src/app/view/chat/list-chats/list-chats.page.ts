@@ -6,6 +6,7 @@ import {ChatModel} from "../../../model/entity/chat.model";
 import {UserService} from "../../../service/user.service";
 import {ChatCreateDto} from "../../../model/create/chat.create.dto";
 import {MenuController} from "@ionic/angular";
+import {ErrorModel} from "../../../model/entity/error.model";
 
 @Component({
   selector: 'app-list-chats',
@@ -15,6 +16,7 @@ import {MenuController} from "@ionic/angular";
 export class ListChatsPage implements OnInit {
 
   chats!: ChatModel[];
+  errorModel!: ErrorModel | undefined;
 
   constructor(private sessionService: SessionService,
               private chatService: ChatService,
@@ -34,6 +36,9 @@ export class ListChatsPage implements OnInit {
             return new Date(b.updateDate).getTime() - new Date(a.updateDate).getTime();
           });
         this.chats = this.chats.sort((a, b) => b.status.localeCompare(a.status));
+      },
+      error: (fault) => {
+        this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault.status);
       }
     });
   }
@@ -43,7 +48,8 @@ export class ListChatsPage implements OnInit {
       next: (chatModel) => {
         this.router.navigate(['chat', chatModel.id]);
       },
-      error: () => {
+      error: (fault) => {
+        this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault.status);
       }
     });
   }
@@ -55,6 +61,12 @@ export class ListChatsPage implements OnInit {
   toSecurity() {
     this.closeMenu()
     this.router.navigateByUrl('security');
+  }
+
+  // Метод для перехода к списку медицинских чатов
+  toVet() {
+    this.closeMenu();
+    this.router.navigateByUrl('list-medical-chats');
   }
 
   openMenu() {

@@ -1,3 +1,5 @@
 <ion-card (click)="onClick()" mode="ios">
-  <img src="{{this.base64}}"/>
+  @if(this.errorModel == undefined){
+    <img src="{{this.base64}}"/>
+  }
 </ion-card>

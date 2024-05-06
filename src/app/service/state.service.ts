@@ -8,6 +8,7 @@ import {StateDictionaryCreateDto} from "../model/create/state.dictionary.create.
 import {StateModel} from "../model/entity/state.model";
 import {StateCreateDto} from "../model/create/state.create.dto";
 import {StateTemplateModel} from "../model/entity/state.template.model";
+import {StateDictionaryUpdateDto} from "../model/update/state.dictionary.update.dto";
 
 @Injectable({providedIn: "root"})
 export class StateService {
@@ -17,7 +18,6 @@ export class StateService {
               private sessionService: SessionService) {
   }
 
-  // Получить записи, связанные с определенным пользователем
   getDictionaries(recordId: number): Observable<StateDictionaryModel[]> {
     return this.httpClient.get<StateDictionaryModel[]>(
       this.apiService.getApiHost + "/api/v1/dictionaries/recordId/" + recordId,
@@ -46,7 +46,6 @@ export class StateService {
     );
   }
 
-  // Создать новое сообщение в чате
   createDictionary(model: StateDictionaryCreateDto): Observable<StateDictionaryModel> {
     return this.httpClient.post<StateDictionaryModel>(
       this.apiService.getApiHost + "/api/v1/dictionaries", model,
@@ -54,7 +53,6 @@ export class StateService {
     );
   }
 
-  // Создать новое сообщение в чате
   createState(model: StateCreateDto): Observable<StateModel> {
     return this.httpClient.post<StateModel>(
       this.apiService.getApiHost + "/api/v1/states", model,
@@ -62,10 +60,23 @@ export class StateService {
     );
   }
 
-  // Метод для удаления записи
+  updateDictionary(model: StateDictionaryUpdateDto): Observable<StateDictionaryModel> {
+    return this.httpClient.put<StateDictionaryModel>(
+      this.apiService.getApiHost + "/api/v1/dictionaries", model,
+      this.sessionService.getHeaderToken()
+    );
+  }
+
   deleteDictionary(id: number): Observable<void> {
     return this.httpClient.delete<void>(
       this.apiService.getApiHost + "/api/v1/dictionaries/" + id,
+      this.sessionService.getHeaderToken()
+    );
+  }
+
+  deleteState(id: number): Observable<void> {
+    return this.httpClient.delete<void>(
+      this.apiService.getApiHost + "/api/v1/states/" + id,
       this.sessionService.getHeaderToken()
     );
   }

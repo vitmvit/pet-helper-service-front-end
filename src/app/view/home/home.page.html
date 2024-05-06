@@ -11,13 +11,12 @@
         <ion-item (click)="toSupport()" lines="none">
           <ion-icon color="primary" name="help-buoy-outline" slot="start"></ion-icon>
           <ion-label>
-            <h2>Помощь</h2>
+            <h2>Техническая помощь</h2>
             <p>Напишите о проблеме</p>
           </ion-label>
         </ion-item>
         <ion-item (click)="toVet()" lines="none">
           <ion-icon color="primary" name="medical-outline" slot="start"></ion-icon>
-          <!--          <ion-icon color="primary" name="help-buoy-outline" slot="start"></ion-icon>-->
           <ion-label>
             <h2>Помощь ветеринара</h2>
             <p>Напишите о проблеме</p>
@@ -62,12 +61,19 @@
     </ion-header>
     <!--    /title-->
     <ion-content>
+      @if(this.errorModel !== undefined){
+        <ion-card color="danger">
+          <ion-card-content>
+            {{errorModel.message}}
+          </ion-card-content>
+        </ion-card>
+      }
       @for (item of listRecords; track item.id) {
-      <app-card-component
-      [record] = item
-      ></app-card-component>
+        <app-card-component
+        [record] = item
+        ></app-card-component>
       } @empty {
-      <ion-img class="img" src="../../../assets/img/empty.jpg"/>
+        <ion-img class="img" src="../../../assets/img/empty.jpg"/>
       }
     </ion-content>
   </div>

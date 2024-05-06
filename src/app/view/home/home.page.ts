@@ -5,6 +5,7 @@ import {MenuController} from "@ionic/angular";
 import {RecordService} from "../../service/record.service";
 import {RecordModel} from "../../model/entity/record.model";
 import {ImageService} from "../../service/image.service";
+import {ErrorModel} from "../../model/entity/error.model";
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ export class HomePage implements OnInit {
   input!: string;
   reload!: string;
   listRecords!: RecordModel[];
+  errorModel!: ErrorModel | undefined;
 
   constructor(private sessionService: SessionService,
               private menu: MenuController,
@@ -31,12 +33,14 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.errorModel = undefined
     // Получение списка записей при инициализации компонента
     this.getMyRecords();
   }
 
   // Метод для получения списка записей пользователя
   getMyRecords() {
+    this.errorModel = undefined
     if (this.input) {
       // Если есть введенное значение поиска, фильтруем записи по названию
       this.listRecords = this.listRecords.filter(record => record.name.includes(this.input));
@@ -48,25 +52,11 @@ export class HomePage implements OnInit {
             return new Date(b.updateDate).getTime() - new Date(a.updateDate).getTime();
           });
         },
-        error: () => {
-          // Обработка ошибки
+        error: (fault) => {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault.status);
         }
       });
     }
-  }
-
-  // Метод для получения base64-строки аватара по UUID
-  getBase64(uuid: string) {
-    this.imageService.getAvatar(uuid).subscribe(
-      {
-        next: (response) => {
-          return response;
-        },
-        error: () => {
-          // Обработка ошибки
-        }
-      }
-    );
   }
 
   // Метод для перехода к созданию новой записи

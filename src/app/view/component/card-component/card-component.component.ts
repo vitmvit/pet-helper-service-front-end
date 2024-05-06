@@ -4,6 +4,7 @@ import {ImageService} from "../../../service/image.service";
 import {RecordService} from "../../../service/record.service";
 import {Router} from "@angular/router";
 import {RecordModel} from "../../../model/entity/record.model";
+import {ErrorModel} from "../../../model/entity/error.model";
 
 @Component({
   selector: 'app-card-component',
@@ -14,6 +15,7 @@ export class CardComponentComponent implements OnInit {
 
   recordVal!: RecordModel;
   base64!: string;
+  errorModel!: ErrorModel | undefined;
 
   constructor(private sessionService: SessionService,
               private imageService: ImageService,
@@ -36,12 +38,14 @@ export class CardComponentComponent implements OnInit {
 
   // Получение строки base64 для изображения по UUID
   getBase64(uuid: string) {
+    this.errorModel = undefined
     this.imageService.getAvatar(uuid).subscribe(
       {
         next: (response) => {
           this.base64 = response
         },
-        error: () => {
+        error: (fault2) => {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault2.status);
         }
       }
     )

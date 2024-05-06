@@ -1,39 +1,45 @@
 <ion-app>
   <div class="ion-page" id="main-content">
     <!--    title-->
-    <ion-header>
-      <ion-toolbar color="primary">
-        <ion-buttons slot="start">
-          <ion-back-button (click)="toBack()" default-href=""></ion-back-button>
-        </ion-buttons>
-        <ion-title>Родословная</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <!--    /title-->
     <ion-content>
       <!-- Проверка наличия записи this.record -->
       @if(this.record) {
-      <ion-card mode="ios">
-        <ion-card-header>
-          <!-- Отображение аватара записи с помощью компонента app-image-component -->
-          <app-image-component
-            [imageUuid]="this.record.uuidAvatar"
-            [recordId]="this.recordId"
-          ></app-image-component>
-        </ion-card-header>
-        <ion-card-content>
-          <!-- Отображение имени и полного имени записи -->
-          <ion-card-title>{{ this.record.name }}</ion-card-title>
+        <ion-card mode="ios">
+          <ion-card-header>
+            <!-- Отображение аватара записи с помощью компонента app-image-component -->
+            <app-image-component
+              [imageUuid]="this.record.uuidAvatar"
+              [recordId]="this.recordId"
+            ></app-image-component>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- Отображение имени и полного имени записи -->
+            <ion-card-title>{{ this.record.name }}</ion-card-title>
             <ion-card-subtitle>{{ this.record.fullName }}</ion-card-subtitle>
           </ion-card-content>
         </ion-card>
       }
+      <ion-card mode="ios">
+        <ion-card-content>
+          <ion-list>
+            <ion-item lines="none">
+              <ion-thumbnail slot="start">
+                <ion-icon class="ion-margin" color="warning" size="large" name="bonfire-outline"></ion-icon>
+              </ion-thumbnail>
+              <ion-label>На этой странице вы можете удалять и редактировать родословную своего питомца</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+      <ion-item lines="none" style="text-align: justify;">
+        <ion-label color="dark"> Карточка родителя белого цвета - это родитель существующий в системе, серого - родитель который не занесен в систему как полноценная запись</ion-label>
+      </ion-item>
       <!-- Цикл для отображения существующих родителей (parent1) -->
       @for (item of parent1; track item.id) {
-      <ion-card mode="ios">
-        <ion-card-header>
-          <!-- Отображение имени и пола родителя -->
-          <ion-card-title>{{ item.name }}</ion-card-title>
+        <ion-card mode="ios">
+          <ion-card-header>
+            <!-- Отображение имени и пола родителя -->
+            <ion-card-title>{{ item.name }}</ion-card-title>
             <ion-card-subtitle>{{ item.sex }}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>{{ item.description }}</ion-card-content>
@@ -70,13 +76,12 @@
       }
       <!-- Цикл для отображения несуществующих родителей (parent2) -->
       @for (item of parent2; track item.id) {
-      <ion-card mode="ios" color="light">
-        <ion-card-header>
-          <ion-card-title>{{ item.name }}</ion-card-title>
+        <ion-card mode="ios" color="light">
+          <ion-card-header>
+            <ion-card-title>{{ item.name }}</ion-card-title>
             <ion-card-subtitle>{{ item.sex }}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>{{ item.description }}</ion-card-content>
-
           <ion-grid>
             <ion-row>
               <ion-col></ion-col>
@@ -99,17 +104,26 @@
       }
       <!-- Проверка, что количество родителей меньше 2 -->
       @if(this.count < 2) {
-      <ion-grid>
-        <ion-row>
-          <ion-col></ion-col>
-          <ion-col>
-            <!-- Кнопка для перехода на страницу добавления нового родителя -->
-            <ion-button (click)="toCreatePedigree()">Добавить родителя</ion-button>
-          </ion-col>
-          <ion-col></ion-col>
-        </ion-row>
-      </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col>
+              <!-- Кнопка для перехода на страницу добавления нового родителя -->
+              <ion-button (click)="toCreatePedigree()">Добавить родителя</ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+        </ion-grid>
       }
     </ion-content>
+    <!--    /title-->
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-back-button (click)="toBack()" default-href=""></ion-back-button>
+        </ion-buttons>
+        <ion-title>Родословная</ion-title>
+      </ion-toolbar>
+    </ion-header>
   </div>
 </ion-app>

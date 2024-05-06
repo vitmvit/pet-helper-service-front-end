@@ -70,6 +70,8 @@ export class PetPropertiesPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.errorModel = undefined
+
     this.isDeleteAlertOpen = false
     this.typeSex = ["MALE", "FEMALE", "HERM", "UNKNOWN"]
     this.displayEdit = "none"
@@ -125,6 +127,7 @@ export class PetPropertiesPage implements OnInit {
     this.recordService.updateRecord(new RecordUpdateDto(this.recordId, this.sessionService.getLogin(), this.name, this.imageUuid, this.dataBirthday, this.fullName, this.sex, this.description, false)).subscribe(
       {
         next: (dto) => {
+          console.log()
         }
       })
     this.toEditRecord()
@@ -149,10 +152,12 @@ export class PetPropertiesPage implements OnInit {
           this.imageUuid = dto.generatedName;
           this.recordService.updateAvatarUuid(this.recordId, this.imageUuid).subscribe({
             next: (model) => {
+              console.log()
             }
           })
         },
-        error: () => {
+        error: (fault) => {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault.status);
         }
       })
     }

@@ -13,14 +13,22 @@
     <ion-content>
       <ion-card mode="ios">
         @if(this.imageBase64){
-        <ion-card-header>
-          <ion-img class="img" alt="auth" src="{{this.imageBase64}}"/>
+          <ion-card-header>
+            <ion-img class="img" alt="auth" src="{{this.imageBase64}}"/>
           </ion-card-header>
         }
         <ion-card-content class="ion-text-center">
           <ion-button (click)="setOpen(true)" mode="md">Добавить обложку</ion-button>
         </ion-card-content>
       </ion-card>
+
+      @if(this.errorModel !== undefined){
+        <ion-card color="danger">
+          <ion-card-content>
+            {{errorModel.message}}
+          </ion-card-content>
+        </ion-card>
+      }
 
       <ion-card mode="ios">
         <ion-card-header>
@@ -59,11 +67,11 @@
           </ion-header>
           <ion-content class="ion-padding">
             @for (item of listImages; track item) {
-            <app-dictionary-image
-              (itemClick)="confirm($event)"
-              [record]=item></app-dictionary-image>
+              <app-dictionary-image
+                (itemClick)="confirm($event)"
+                [record]=item></app-dictionary-image>
             } @empty {
-            <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>
+              <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>
             }
             <!--            <ion-card mode="ios">-->
             <!--              <ion-card-content>-->
@@ -92,11 +100,11 @@
           </ion-header>
           <ion-content class="ion-padding">
             @for (item of listStateTemplate; track item) {
-            <app-template-image
-              (itemClick)="confirm2($event)"
-              [record]=item></app-template-image>
+              <app-template-image
+                (itemClick)="confirm2($event)"
+                [record]=item></app-template-image>
             } @empty {
-            <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>
+              <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>
             }
           </ion-content>
         </ng-template>

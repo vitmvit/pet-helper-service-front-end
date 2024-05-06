@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MessageModel} from "../../../model/entity/message.model";
 import {ChatModel} from "../../../model/entity/chat.model";
 import {MessageCreateDto} from "../../../model/create/message.create.dto";
+import {ErrorModel} from "../../../model/entity/error.model";
 
 @Component({
   selector: 'app-chat',
@@ -21,6 +22,7 @@ export class ChatPage implements OnInit {
   currentSupport!: string;
   newMessage!: string;
   closedMessage!: string;
+  errorModel!: ErrorModel | undefined;
 
   private refreshIntervalId: any;
 
@@ -46,6 +48,7 @@ export class ChatPage implements OnInit {
 
   // Получение чата по идентификатору
   getChat() {
+    this.errorModel = undefined
     this.chatService.getChatById(this.id).subscribe({
       next: (chatModel) => {
         this.listMessages = chatModel.messageList
@@ -60,6 +63,9 @@ export class ChatPage implements OnInit {
         if (this.currentChat.status == "CLOSED") {
           this.closedMessage = "Данный диалог завершен!"
         }
+      },
+      error:()=>{
+        this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", 500);
       }
     });
   }

@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {RecordModel} from "../../model/entity/record.model";
 import {RecordCreateDto} from "../../model/create/record.create.dto";
 import {ErrorModel} from "../../model/entity/error.model";
+import {ActuatorService} from "../../service/actuator.service";
 
 @Component({
   selector: 'app-pet-create',
@@ -30,12 +31,18 @@ export class PetCreatePage implements OnInit {
   constructor(private sessionService: SessionService,
               private menu: MenuController,
               private imageService: ImageService,
+              private actuatorService: ActuatorService,
               private recordService: RecordService,
               private router: Router) {
     sessionService.checkLogin();
   }
 
   ngOnInit() {
+    this.actuatorService.getHealthPetHelperService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
     this.dataBirthday = "";
     this.typeSex = ["MALE", "FEMALE", "HERM", "UNKNOWN"]
     this.errorModel = undefined

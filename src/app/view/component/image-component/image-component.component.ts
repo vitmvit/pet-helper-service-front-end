@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ImageService} from "../../../service/image.service";
 import {RecordModel} from "../../../model/entity/record.model";
 import {RecordService} from "../../../service/record.service";
+import {ErrorModel} from "../../../model/entity/error.model";
 
 @Component({
   selector: 'app-image-component',
@@ -14,6 +15,7 @@ export class ImageComponentComponent implements OnInit {
   base64: string = "";
   private imageUuidVal: string = "";
   private recordIdVal: number = 0;
+  errorModel!: ErrorModel | undefined;
 
   constructor(private imageService: ImageService,
               private recordService: RecordService) {
@@ -57,12 +59,14 @@ export class ImageComponentComponent implements OnInit {
 
   // Получение аватара по uuid
   getAvatar(uuid: string) {
+    this.errorModel = undefined
     this.imageService.getAvatar(uuid).subscribe(
       {
         next: (response) => {
           this.base64 = response
         },
-        error: () => {
+        error: (fault2) => {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault2.status);
         }
       }
     )

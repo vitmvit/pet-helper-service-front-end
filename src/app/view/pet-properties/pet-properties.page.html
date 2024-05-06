@@ -5,17 +5,17 @@
       <ion-toolbar color="primary">
         <ion-buttons slot="start">
           @if(this.displayData =="block"){
-          <ion-back-button (click)="toHome()" default-href=""></ion-back-button>
+            <ion-back-button (click)="toHome()" default-href=""></ion-back-button>
           }@else{
-          <ion-back-button (click)="toEditRecord()" default-href=""></ion-back-button>
+            <ion-back-button (click)="toEditRecord()" default-href=""></ion-back-button>
           }
         </ion-buttons>
         @if(this.record){
-        <!-- Если запись существует, отображается ее имя -->
-        <ion-title>{{this.record.name}}</ion-title>
+          <!-- Если запись существует, отображается ее имя -->
+          <ion-title>{{this.record.name}}</ion-title>
         }@else{
-        <!-- Иначе отображается "Pet-Helper" -->
-        <ion-title>Pet-Helper</ion-title>
+          <!-- Иначе отображается "Pet-Helper" -->
+          <ion-title>Pet-Helper</ion-title>
         }
         <!-- Кнопка для удаления записи -->
         <ion-buttons id="delete-alert" slot="end">
@@ -38,47 +38,54 @@
           <ion-card-subtitle>{{this.fullName}}</ion-card-subtitle>
         </ion-card-content>
       </ion-card>
+      @if(this.errorModel !== undefined){
+        <ion-card color="danger">
+          <ion-card-content>
+            {{errorModel.message}}
+          </ion-card-content>
+        </ion-card>
+      }
       <!-- Если заполнены поля пола, даты рождения, полного имени или описания -->
       @if(this.sex != null || this.dataBirthday != null || this.fullName != null || this.description != null){
-      <ion-card mode="ios" style="display: {{this.displayData}}">
+        <ion-card mode="ios" style="display: {{this.displayData}}">
           <ion-card-content>
             <!--        sex-->
             @if(this.sex != null){
-      <div class="item ios item-lines-none item-fill-none hydrated item-label" style="display: {{this.displayData}}">
-        <ion-label>Пол:</ion-label>
-        <ion-note slot="end">{{sex}}</ion-note>
-      </div>
-      <br>
-      }
-      <!--      /sex-->
-      <!--      birthday-->
-      @if(this.dataBirthday != null){
-      <div class="item ios item-lines-none item-fill-none hydrated item-label" style="display: {{this.displayData}}">
-        <ion-label>Дата рождения:</ion-label>
-        <ion-note slot="end">{{dataBirthday | date}}</ion-note>
-      </div>
-      <br>
-      }
-      <!--      /birthday-->
-      <!--      full name-->
-      @if(this.fullName != null){
-      <div class="item ios item-lines-none item-fill-none hydrated item-label" style="display: {{this.displayData}}">
-        <ion-label>Полное имя:</ion-label>
-        <ion-note slot="end">{{fullName}}</ion-note>
-      </div>
-      <br>
-      }
-      <!--      /full name-->
-      <!--      description-->
-      @if(this.description != null){
-      <div class="item ios item-lines-none item-fill-none hydrated item-label" style="display: {{this.displayData}}">
-        <ion-label>Заметки:</ion-label>
-        <ion-note slot="end">{{description}}</ion-note>
-      </div>
-      }
-      <!--      /description-->
-      </ion-card-content>
-      </ion-card>
+              <div class="item ios item-lines-none item-fill-none hydrated item-label" style="display: {{this.displayData}}">
+                <ion-label>Пол:</ion-label>
+                <ion-note slot="end">{{sex}}</ion-note>
+              </div>
+              <br>
+            }
+            <!--      /sex-->
+            <!--      birthday-->
+            @if(this.dataBirthday != null){
+              <div class="item ios item-lines-none item-fill-none hydrated item-label" style="display: {{this.displayData}}">
+                <ion-label>Дата рождения:</ion-label>
+                <ion-note slot="end">{{dataBirthday | date}}</ion-note>
+              </div>
+              <br>
+            }
+            <!--      /birthday-->
+            <!--      full name-->
+            @if(this.fullName != null){
+              <div class="item ios item-lines-none item-fill-none hydrated item-label" style="display: {{this.displayData}}">
+                <ion-label>Полное имя:</ion-label>
+                <ion-note slot="end">{{fullName}}</ion-note>
+              </div>
+              <br>
+            }
+            <!--      /full name-->
+            <!--      description-->
+            @if(this.description != null){
+              <div class="item ios item-lines-none item-fill-none hydrated item-label" style="display: {{this.displayData}}">
+                <ion-label>Заметки:</ion-label>
+                <ion-note slot="end">{{description}}</ion-note>
+              </div>
+            }
+            <!--      /description-->
+          </ion-card-content>
+        </ion-card>
       }
       <ion-card mode="ios" style="display: {{this.displayEdit}}">
         <ion-card-content>
@@ -90,7 +97,7 @@
           <br>
           <ion-select [(ngModel)]="this.sex" label="Пол:" placeholder="Пол питомца">
             @for (item of typeSex; track item) {
-            <ion-select-option value="{{item}}">{{item}}</ion-select-option>
+              <ion-select-option value="{{item}}">{{item}}</ion-select-option>
             }
           </ion-select>
           <br>
@@ -127,59 +134,70 @@
         </ion-card-content>
       </ion-card>
       @if(this.displayEdit =="none"){
-      <ion-card mode="ios">
-        <ion-card-content class="ion-text-center">
-          <ion-card-title color="dark" mode="md">Родословная:</ion-card-title>
-          <br>
-          <ion-button mode="md" (click)="record && record.hasPedigree ? toPedigree() : toCreatePedigree()">
-      {{ record && record.hasPedigree ? 'Перейти к просмотру' : 'Добавить в родословную' }}
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
+        <ion-card mode="ios">
+          <ion-card-content class="ion-text-center">
+            <ion-card-title color="dark" mode="md">Родословная:</ion-card-title>
+            <br>
+            <ion-button mode="md" (click)="record && record.hasPedigree ? toPedigree() : toCreatePedigree()">
+              {{ record && record.hasPedigree ? 'Перейти к просмотру' : 'Добавить в родословную' }}
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
       }
       @if(this.displayEdit =="block"){
-      <ion-grid>
-        <ion-row>
-          <ion-col></ion-col>
-          <ion-col>
-            <!-- Кнопка для сохранения данных -->
-            <ion-button mode="md" (click)="updateRecord()">
-              Сохранить изменения
-            </ion-button>
-          </ion-col>
-          <ion-col></ion-col>
-        </ion-row>
-      </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col>
+              <!-- Кнопка для сохранения данных -->
+              <ion-button mode="md" (click)="updateRecord()">
+                Сохранить изменения
+              </ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+        </ion-grid>
       }
       @if(this.displayEdit =="none"){
-      <ion-card-title color="dark" mode="md" class="ion-text-center">Состояния:</ion-card-title>
+        <ion-card-title color="dark" mode="md" class="ion-text-center">Состояния:</ion-card-title>
+        <ion-card mode="ios">
+          <ion-card-content>
+            <ion-list>
+              <ion-item lines="none">
+                <ion-thumbnail slot="start">
+                  <ion-icon class="ion-margin" color="warning" size="large" name="bonfire-outline"></ion-icon>
+                </ion-thumbnail>
+                <ion-label>Отслеживайте состояние и параметы вашего питомца</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
         <ion-grid>
           <ion-row>
             @if(this.listStateDictionary){
-      @for (item of listStateDictionary; track item.id) {
-      <ion-col style="width: 40%">
-        <app-state-component
-        [record]=item>
-        </app-state-component>
-      </ion-col>
-      } @empty {
-      <ion-img class="img" src="../../../assets/img/empty.jpg"/>
-      }
-      }
-      </ion-row>
-    </ion-grid>
-    <ion-grid>
-      <ion-row>
-        <ion-col></ion-col>
-        <ion-col>
-          <!-- Кнопка для сохранения данных -->
-          <ion-button mode="md" (click)="toCreateDictionary()">
-            Добавить
-          </ion-button>
-        </ion-col>
-        <ion-col></ion-col>
-      </ion-row>
-    </ion-grid>
+              @for (item of listStateDictionary; track item.id) {
+                <ion-col style="width: 40%">
+                  <app-state-component
+                    [record]=item></app-state-component>
+                </ion-col>
+              } @empty {
+                <ion-img class="img" src="../../../assets/img/empty.jpg"/>
+              }
+            }
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col>
+              <!-- Кнопка для сохранения данных -->
+              <ion-button mode="md" (click)="toCreateDictionary()">
+                Добавить
+              </ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+        </ion-grid>
       }
     </ion-content>
   </div>

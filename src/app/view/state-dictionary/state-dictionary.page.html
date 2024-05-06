@@ -4,14 +4,18 @@
     <ion-header>
       <ion-toolbar color="primary">
         <ion-buttons slot="start">
-          <ion-back-button (click)="toBack()" default-href=""></ion-back-button>
+          @if(this.displayData =="block"){
+            <ion-back-button (click)="toBack()" default-href=""></ion-back-button>
+          }@else{
+            <ion-back-button (click)="toEditRecord()" default-href=""></ion-back-button>
+          }
         </ion-buttons>
         @if(this.dictionary){
-        <!-- Если запись существует, отображается ее имя -->
-        <ion-title>{{this.dictionary.name}}</ion-title>
+          <!-- Если запись существует, отображается ее имя -->
+          <ion-title>{{this.dictionary.name}}</ion-title>
         }@else{
-        <!-- Иначе отображается "Pet-Helper" -->
-        <ion-title>Pet-Helper</ion-title>
+          <!-- Иначе отображается "Pet-Helper" -->
+          <ion-title>Pet-Helper</ion-title>
         }
         <!-- Кнопка для удаления записи -->
         <ion-buttons (click)="deleteDictionary()" id="delete-alert" slot="end">
@@ -23,18 +27,52 @@
     <ion-content>
       <ion-card mode="ios">
         @if(this.imageBase64){
-        <ion-card-header>
-          <ion-img class="img" alt="auth" src="{{this.imageBase64}}"/>
+          <ion-card-header>
+            <ion-img class="img" alt="auth" src="{{this.imageBase64}}"/>
           </ion-card-header>
         }
         <ion-card-content>
           @if(this.dictionary){
-          <ion-card-title>{{this.dictionary.name}}</ion-card-title>
+            <ion-card-title>{{this.dictionary.name}}</ion-card-title>
             <ion-card-subtitle>{{this.dictionary.description}}</ion-card-subtitle>
           }
         </ion-card-content>
       </ion-card>
 
+      @if(isActive){
+        <ion-card mode="ios" style="display: {{this.displayData}}">
+          <ion-card-content>
+            <ion-list>
+              <ion-item lines="none">
+                <ion-thumbnail slot="start">
+                  <ion-icon class="ion-margin" color="warning" size="large" name="bonfire-outline"></ion-icon>
+                </ion-thumbnail>
+                <ion-label>Добовляйте контрольные точки, чтобы видеть динамику состояния</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      }@else{
+        <ion-card mode="ios" style="display: {{this.displayData}}">
+          <ion-card-content>
+            <ion-list>
+              <ion-item lines="none">
+                <ion-thumbnail slot="start">
+                  <ion-icon class="ion-margin" color="warning" size="large" name="bonfire-outline"></ion-icon>
+                </ion-thumbnail>
+                <ion-label>Дневник был завершен!</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      }
+      @if(isActive){
+        @if(displayEdit == "none"){
+          <div class="ion-text-center">
+            <ion-button mode="md" (click)="updateStatus()">Завершить дневник</ion-button>
+          </div>
+        }
+      }
       <ion-card mode="ios" style="display: {{display}}">
         <ion-card-header>
           Данные с {{beginPeriod | date}} по {{endPeriod | date}}
@@ -44,24 +82,69 @@
         </ion-card-content>
       </ion-card>
 
-      <div class="ion-text-center">
-        <ion-button (click)="setOpen(true)" mode="md">Добавить контрольную точку</ion-button>
-      </div>
-      <br>
-
+      @if(isActive){
+        @if(displayEdit == "none"){
+          <div class="ion-text-center">
+            <ion-button (click)="setOpen(true)" mode="md">Добавить контрольную точку</ion-button>
+          </div>
+        }
+      }
       @for (item of stateList; track item) {
-      <ion-item class="ion-padding-horizontal">
-        <ion-label>
-          <h2>{{item.dateCreated | date}}</h2>
+        <ion-item>
+          <ion-label>
+            <h2>{{item.dateCreated | date}}</h2>
             <h4>{{item.value}}</h4>
             <p>{{item.description}}</p>
           </ion-label>
+          @if(isActive){
+            <ion-buttons slot="end" (click)="deleteState(item.id)">
+              <ion-icon class="ion-padding" name="trash-outline"></ion-icon>
+            </ion-buttons>
+          }
         </ion-item>
       } @empty {
-      <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>
+        <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>
       }
 
-      <!-- Модальное окно для выбора родителя -->
+      <ion-card mode="ios" style="display: {{this.displayEdit}}">
+        <ion-card-content>
+          <ion-card-title color="dark" mode="md">Редактирование:</ion-card-title>
+          <br>
+          <ion-input [(ngModel)]="name" labelPlacement="floating" mode="md" placeholder="Евгеныч" type="text">
+            <h1 slot="label">Имя записи:</h1>
+          </ion-input>
+          <br>
+          <ion-input [(ngModel)]="descriptionState" labelPlacement="floating" mode="md" placeholder="Пятнистый" type="text">
+            <h1 slot="label">Заметки:</h1>
+          </ion-input>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card mode="ios" style="display: {{this.displayEdit}}">
+        <ion-card-content>
+          <ion-card-title color="dark" mode="md">Аватар записи:</ion-card-title>
+          <br>
+          <div class="ion-text-center">
+            <ion-button (click)="setOpen2(true)" mode="md">Выбрать обложку</ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      @if(this.displayEdit =="block"){
+        <ion-grid>
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col>
+              <!-- Кнопка для сохранения данных -->
+              <ion-button mode="md" (click)="updateDictionary()">
+                Сохранить изменения
+              </ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+        </ion-grid>
+      }
+      <!-- Модальное окно для добавления контрольной точки -->
       <ion-modal [isOpen]="isModalOpen">
         <ng-template>
           <ion-header>
@@ -94,13 +177,41 @@
             <ion-input [(ngModel)]="value" labelPlacement="floating" mode="md" placeholder="10.0" type="text">
               <ion-label slot="label">Значение выбранного дня:</ion-label>
             </ion-input>
-            <ion-input [(ngModel)]="description" labelPlacement="floating" mode="md" placeholder="День прекрасен"
+            <ion-input [(ngModel)]="descriptionState" labelPlacement="floating" mode="md" placeholder="День прекрасен"
                        type="text">
               <ion-label slot="label">Заметки к записи:</ion-label>
             </ion-input>
           </ion-content>
         </ng-template>
       </ion-modal>
+      <ion-modal [isOpen]="isModalOpen2">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-buttons slot="end">
+                <ion-button (click)="cancel2()">Отмена</ion-button>
+              </ion-buttons>
+              <ion-title>Обложка для дневника</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            @for (item of listImages; track item) {
+              <app-dictionary-image
+                (itemClick)="confirm2($event)"
+                [record]=item></app-dictionary-image>
+            } @empty {
+              <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>
+            }
+          </ion-content>
+        </ng-template>
+      </ion-modal>
     </ion-content>
   </div>
+  <ion-fab horizontal="end" slot="fixed" vertical="bottom">
+    @if(displayEdit =="none"){
+      <ion-fab-button (click)="toEditRecord()">
+        <ion-icon name="pencil-outline"></ion-icon>
+      </ion-fab-button>
+    }
+  </ion-fab>
 </ion-app>

@@ -35,36 +35,43 @@ export class SignupPage implements OnInit {
 
   singUp() {
     this.errorModel = undefined
-    this.authService.signUp(new SignUpModel(this.login, this.password, this.passwordConfirm, this.role)).subscribe({
-      next: (tokenModel) => {
-        // Получение роли из токена
-        const role = this.getRoleInToken(tokenModel.accessToken)
-        if (role == 'USER') {
-          // Получение логина из токена
-          const login = this.getLoginInToken(tokenModel.accessToken)
-          if (login == this.login) {
-            this.sessionService.setToken(tokenModel.accessToken);
-            this.userService.me(login).subscribe({
-              next: (user) => {
-                if (user !== undefined) {
-                  this.sessionService.setLogin(user.login);
-                  this.router.navigateByUrl('home');
+    if (this.password == this.passwordConfirm) {
+      this.authService.signUp(new SignUpModel(this.login, this.password, this.passwordConfirm, this.role)).subscribe({
+        next: (tokenModel) => {
+          // Получение роли из токена
+          const role = this.getRoleInToken(tokenModel.accessToken)
+          if (role == 'USER') {
+            // Получение логина из токена
+            const login = this.getLoginInToken(tokenModel.accessToken)
+            if (login == this.login) {
+              this.sessionService.setToken(tokenModel.accessToken);
+              this.userService.me(login).subscribe({
+                next: (user) => {
+                  if (user !== undefined) {
+                    this.sessionService.setLogin(user.login);
+                    this.router.navigateByUrl('home');
+                  }
+                },
+                error: (fault2) => {
+                  this.errorModel = new ErrorModel("Такой логин уже существует в системе!", fault2.status);
                 }
-              },
-              error: (fault2) => {
-                this.errorModel = new ErrorModel("Username is exist!", fault2.status);
-              }
-            });
+              });
+            }
+          } else {
+            this.errorModel = new ErrorModel("У вашей роли нет доступа к данному функционалу", 302);
           }
-        } else {
-          this.errorModel = new ErrorModel("No access!", 302);
+        },
+        error: (fault1) => {
+          if (fault1.status == 500) {
+            this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault1.status);
+          } else {
+            this.errorModel = new ErrorModel("Такой логин уже существует в системе!", 302);
+          }
         }
-      },
-      error: (fault1) => {
-        this.errorModel = new ErrorModel("Double check your details!", fault1.status);
-      }
-    });
-    console.log("singIn")
+      });
+    } else {
+      this.errorModel = new ErrorModel("Пароль и его подтверждение должны совпадать!", 404);
+    }
   }
 
   // Метод для получения логина из JWT-токена

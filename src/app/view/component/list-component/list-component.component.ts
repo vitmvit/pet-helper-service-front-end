@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SessionService} from "../../../service/session.service";
 import {ImageService} from "../../../service/image.service";
 import {RecordModel} from "../../../model/entity/record.model";
+import {ErrorModel} from "../../../model/entity/error.model";
 
 @Component({
   selector: 'app-list-component',
@@ -12,6 +13,7 @@ export class ListComponentComponent implements OnInit {
 
   recordVal!: RecordModel;
   base64!: string;
+  errorModel!: ErrorModel | undefined;
   @Output() itemClick: EventEmitter<any> = new EventEmitter();
 
   constructor(private sessionService: SessionService,
@@ -37,12 +39,14 @@ export class ListComponentComponent implements OnInit {
 
   // Получение строки base64 для изображения по UUID
   getBase64(uuid: string) {
+    this.errorModel = undefined
     this.imageService.getAvatar(uuid).subscribe(
       {
         next: (response) => {
           this.base64 = response
         },
-        error: () => {
+        error: (fault2) => {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault2.status);
         }
       }
     )

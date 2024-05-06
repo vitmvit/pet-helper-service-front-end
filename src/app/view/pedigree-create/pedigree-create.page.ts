@@ -10,6 +10,7 @@ import {Location} from "@angular/common";
 import {NotExistParentCreateDto} from "../../model/create/not.exist.parent.create.dto";
 import {NotExistParentService} from "../../service/not.exist.parent.service";
 import {PedigreeUpdateDto} from "../../model/update/pedigree.update";
+import {ActuatorService} from "../../service/actuator.service";
 
 @Component({
   selector: 'app-pedigree-create',
@@ -32,7 +33,8 @@ export class PedigreeCreatePage implements OnInit {
 
   constructor(private sessionService: SessionService,
               private location: Location,
-              public alertController: AlertController,
+              private alertController: AlertController,
+              private actuatorService: ActuatorService,
               private pedigreeService: PedigreeService,
               private notExistParentService: NotExistParentService,
               private recordService: RecordService,
@@ -43,6 +45,11 @@ export class PedigreeCreatePage implements OnInit {
   }
 
   ngOnInit() {
+    this.actuatorService.getHealthPetHelperService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
     // Получение идентификатора записи из параметров маршрута
     this.route.params.subscribe(params => this.recordId = params["id"])
     this.getAllRecords()
@@ -84,6 +91,7 @@ export class PedigreeCreatePage implements OnInit {
   getAllRecords() {
     this.recordService.getMyRecords(this.sessionService.getLogin()).subscribe({
       next: (listRecord) => {
+        console.log(listRecord)
         this.listRecords = listRecord
       },
       error: () => {

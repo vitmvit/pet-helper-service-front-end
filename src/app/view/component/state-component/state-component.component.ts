@@ -3,6 +3,7 @@ import {SessionService} from "../../../service/session.service";
 import {ImageService} from "../../../service/image.service";
 import {StateDictionaryModel} from "../../../model/entity/state.dictionary.model";
 import {Router} from "@angular/router";
+import {ErrorModel} from "../../../model/entity/error.model";
 
 @Component({
   selector: 'app-state-component',
@@ -14,6 +15,7 @@ export class StateComponentComponent implements OnInit {
   recordVal!: StateDictionaryModel;
   base64!: string;
   imageUuid!: string;
+  errorModel!: ErrorModel | undefined;
   @Output() itemClick: EventEmitter<any> = new EventEmitter();
 
   constructor(private sessionService: SessionService,
@@ -44,13 +46,15 @@ export class StateComponentComponent implements OnInit {
 
   // Получение строки base64 для изображения по UUID
   getBase64(uuid: string) {
+    this.errorModel = undefined
     this.imageService.getStateImage(uuid).subscribe(
       {
         next: (response) => {
           this.base64 = response
           this.imageUuid = uuid
         },
-        error: () => {
+        error: (fault2) => {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault2.status);
         }
       }
     )

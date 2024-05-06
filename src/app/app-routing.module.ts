@@ -112,6 +112,14 @@ const routes: Routes = [
   {
     path: 'state-dictionary-create/:id',
     loadChildren: () => import('./view/state-dictionary-create/state-dictionary-create.module').then(m => m.StateDictionaryCreatePageModule)
+  },
+  {
+    path: 'page500',
+    loadChildren: () => import('./view/error/page500/page500.module').then(m => m.Page500PageModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./view/error/page404/page404.module').then(m => m.Page404PageModule)
   }
 ];
 

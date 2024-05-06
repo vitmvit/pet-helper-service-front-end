@@ -10,6 +10,9 @@ import {CategoryScale, Chart, LinearScale, LineController, LineElement, PointEle
 import {IonModal} from "@ionic/angular";
 import {StateCreateDto} from "../../model/create/state.create.dto";
 import {isNumber} from "chart.js/helpers";
+import {ImageModel} from "../../model/entity/image.model";
+import {StateDictionaryUpdateDto} from "../../model/update/state.dictionary.update.dto";
+import {ActuatorService} from "../../service/actuator.service";
 
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale);
 
@@ -20,9 +23,11 @@ Chart.register(LineController, LineElement, PointElement, LinearScale, Title, Ca
 })
 export class StateDictionaryPage implements OnInit {
 
+  listImages!: ImageModel[];
   dictionary!: StateDictionaryModel
   dictionaryId!: number;
   imageUuid!: string;
+  newImage!: string;
   imageBase64!: string;
   stateList!: StateModel[]
   beginPeriod!: string
@@ -32,8 +37,16 @@ export class StateDictionaryPage implements OnInit {
   value!: number;
   dateForCheck = new Date().toISOString();
   description!: string;
+  descriptionState!: string;
+  name!: string;
   display = "none";
   lineChart!: any;
+  isActive = true;
+
+  displayEdit!: string
+  displayData!: string
+
+  isModalOpen2 = false;
   isModalOpen = false;
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('lineCanvas') private lineCanvas!: ElementRef;
@@ -41,6 +54,7 @@ export class StateDictionaryPage implements OnInit {
   constructor(private sessionService: SessionService,
               private imageService: ImageService,
               private stateDictionaryService: StateService,
+              private actuatorService: ActuatorService,
               private router: Router,
               private loc: Location,
               private route: ActivatedRoute) {
@@ -52,7 +66,16 @@ export class StateDictionaryPage implements OnInit {
   }
 
   ngOnInit() {
-    this.display = "none";
+    this.actuatorService.getHealthPetHelperService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
+
+    this.displayEdit = "none"
+    this.displayData = "block"
+    this.display = "none"
+
     this.getDictionary()
     this.getBase64(this.imageUuid)
     this.getData()
@@ -67,23 +90,62 @@ export class StateDictionaryPage implements OnInit {
     this.isModalOpen = isOpen;
   }
 
+  setOpen2(isOpen: boolean) {
+    this.imageService.getStateImages().subscribe({
+      next: (list) => {
+        this.listImages = list
+      }
+    })
+    this.isModalOpen2 = isOpen;
+  }
+
   // Метод для отмены выбора родителя в модальном окне
   cancel() {
     this.isModalOpen = false;
     this.modal.dismiss(null, 'cancel');
   }
 
+  cancel2() {
+    this.isModalOpen2 = false;
+    this.modal.dismiss(null, 'cancel');
+  }
+
   confirm(record: any) {
     if (isNumber(+this.value)) {
-      this.stateDictionaryService.createState(new StateCreateDto(this.dictionaryId, this.value, this.description, this.dateForCheck)).subscribe(
+      this.stateDictionaryService.createState(new StateCreateDto(this.dictionaryId, this.value, this.descriptionState, this.dateForCheck)).subscribe(
         {
           next: (model) => {
             this.getData()
             this.isModalOpen = false;
             this.modal.dismiss(null, 'confirm');
+
+            this.value = 0
+            this.descriptionState = ""
+            this.dateForCheck = new Date().toISOString()
+
+            this.reloadPage()
           }
         }
       )
+    }
+  }
+
+  confirm2(record: any) {
+    this.newImage = record.generatedName;
+    console.log(this.newImage)
+    this.isModalOpen2 = false;
+    this.modal.dismiss(null, 'confirm');
+  }
+
+  toEditRecord() {
+    if (this.displayEdit == "none") {
+      this.display = "none"
+      this.displayEdit = "block"
+      this.displayData = "none"
+    } else {
+      this.display = "block"
+      this.displayEdit = "none"
+      this.displayData = "block"
     }
   }
 
@@ -113,23 +175,28 @@ export class StateDictionaryPage implements OnInit {
       {
         next: (model) => {
           this.dictionary = model
-          console.log(model)
+          this.isActive = model.active
+          this.name = model.name
+          this.description = model.description
+          this.getBase64(model.uuid)
         }
       }
     )
   }
 
   getBase64(uuid: string) {
-    this.imageService.getStateImage(uuid).subscribe(
-      {
-        next: (response) => {
-          this.imageUuid = uuid
-          this.imageBase64 = response
-        },
-        error: () => {
+    if (uuid) {
+      this.imageService.getStateImage(uuid).subscribe(
+        {
+          next: (response) => {
+            this.imageUuid = uuid
+            this.imageBase64 = response
+          },
+          error: () => {
+          }
         }
-      }
-    )
+      )
+    }
   }
 
   deleteDictionary() {
@@ -142,6 +209,14 @@ export class StateDictionaryPage implements OnInit {
     )
   }
 
+  deleteState(id: number) {
+    this.stateDictionaryService.deleteState(id).subscribe({
+      next: () => {
+        this.reloadPage()
+      }
+    })
+  }
+
   getData() {
     this.stateDictionaryService.getStatesByDictionaryId(this.dictionaryId).subscribe({
       next: (list) => {
@@ -149,6 +224,8 @@ export class StateDictionaryPage implements OnInit {
           this.stateList = list.sort((a, b) => {
             return new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime();
           });
+
+          console.log(this.stateList)
           this.beginPeriod = this.stateList[0].dateCreated
           this.endPeriod = this.stateList[this.stateList.length - 1].dateCreated
 
@@ -162,6 +239,30 @@ export class StateDictionaryPage implements OnInit {
         }
       }
     })
+  }
+
+  updateDictionary() {
+    if (this.newImage) {
+      this.imageUuid = this.newImage
+    }
+    this.stateDictionaryService.updateDictionary(new StateDictionaryUpdateDto(this.dictionaryId, this.dictionary.recordId, this.name, true, this.newImage, this.descriptionState)).subscribe({
+      next: (model) => {
+        this.getDictionary()
+        this.toEditRecord()
+      }
+    })
+  }
+
+  updateStatus() {
+    this.stateDictionaryService.updateDictionary(new StateDictionaryUpdateDto(this.dictionaryId, this.dictionary.recordId, this.name, false, this.dictionary.uuid, this.descriptionState)).subscribe({
+      next: (model) => {
+        this.isActive = false
+      }
+    })
+  }
+
+  reloadPage(): void {
+    window.location.reload();
   }
 
   toBack() {

@@ -29,15 +29,15 @@
       <!--      /add avatar-->
       <!--      error module-->
       @if(this.errorModel !== undefined){
-      <ion-card color="danger">
-        <ion-card-header>
-          <ion-card-title>Error!</ion-card-title>
-          <ion-card-subtitle>{{errorModel.status}}</ion-card-subtitle>
+        <ion-card color="danger">
+          <ion-card-header>
+            <ion-card-title>Error!</ion-card-title>
+            <ion-card-subtitle>{{errorModel.status}}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
-      {{errorModel.message}}
-      </ion-card-content>
-    </ion-card>
+            {{errorModel.message}}
+          </ion-card-content>
+        </ion-card>
       }
       <!--      /error module-->
       <ion-card mode="ios">
@@ -59,7 +59,7 @@
           <!--          select sex-->
           <ion-select [(ngModel)]="this.sex" label="Пол" placeholder="Пол питомца">
             @for (item of typeSex; track item) {
-            <ion-select-option value="{{item}}">{{item}}</ion-select-option>
+              <ion-select-option value="{{item}}">{{item}}</ion-select-option>
             }
           </ion-select>
           <!--          /select sex-->

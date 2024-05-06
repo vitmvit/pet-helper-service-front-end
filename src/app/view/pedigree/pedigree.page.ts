@@ -11,6 +11,8 @@ import {Location} from '@angular/common';
 import {NotExistParentService} from "../../service/not.exist.parent.service";
 import {NotExistParentModel} from "../../model/entity/not.exist.parent.model";
 import {PedigreeUpdateDto} from "../../model/update/pedigree.update";
+import {ErrorModel} from "../../model/entity/error.model";
+import {ActuatorService} from "../../service/actuator.service";
 
 @Component({
   selector: 'app-pedigree',
@@ -28,6 +30,7 @@ export class PedigreePage implements OnInit {
   parent1!: RecordModel[]; // Массив для хранения родителей существующих в системе
   parent2!: NotExistParentModel[]; // Массив для хранения несуществующих в системе родителей
   count = 0 // Счетчик для отслеживания количества загруженных родителей (может быть не больше 2)
+  errorModel!: ErrorModel | undefined;
 
   constructor(private sessionService: SessionService,
               private imageService: ImageService,
@@ -37,6 +40,7 @@ export class PedigreePage implements OnInit {
               private menu: MenuController,
               private recordService: RecordService,
               private router: Router,
+              private actuatorService: ActuatorService,
               private route: ActivatedRoute) {
     sessionService.checkLogin(); // Проверка авторизации пользователя
     route.params.subscribe(params => {
@@ -46,6 +50,12 @@ export class PedigreePage implements OnInit {
   }
 
   ngOnInit() {
+    this.actuatorService.getHealthPetHelperService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
+    this.errorModel = undefined
     this.parent1 = [];
     this.parent2 = [];
     this.getRecord()
@@ -53,13 +63,12 @@ export class PedigreePage implements OnInit {
 
   // Получение записи, соответствующей текущему `recordId`
   getRecord() {
+    this.errorModel = undefined
     this.recordService.getRecordById(this.recordId).subscribe(
       {
         next: (record) => {
           this.record = record;
           this.parentId = record.id
-        },
-        error: () => {
         }
       }
     )

@@ -3,11 +3,13 @@ import {Location} from "@angular/common";
 import {AlertController, IonModal} from "@ionic/angular";
 import {ImageService} from "../../service/image.service";
 import {ImageModel} from "../../model/entity/image.model";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SessionService} from "../../service/session.service";
 import {StateService} from "../../service/state.service";
 import {StateDictionaryCreateDto} from "../../model/create/state.dictionary.create.dto";
 import {StateTemplateModel} from "../../model/entity/state.template.model";
+import {ActuatorService} from "../../service/actuator.service";
+import {ErrorModel} from "../../model/entity/error.model";
 
 @Component({
   selector: 'app-state-dictionary-create',
@@ -24,6 +26,7 @@ export class StateDictionaryCreatePage implements OnInit {
   recordId!: number;
   name!: string;
   description!: string;
+  errorModel!: ErrorModel | undefined;
   // isCustomImage = false;
 
   isModalOpen = false;
@@ -35,9 +38,11 @@ export class StateDictionaryCreatePage implements OnInit {
   constructor(
     private loc: Location,
     private alertController: AlertController,
+    private actuatorService: ActuatorService,
     private sessionService: SessionService,
     private stateDictionaryService: StateService,
     private imageService: ImageService,
+    private router: Router,
     private route: ActivatedRoute
   ) {
     sessionService.checkLogin();
@@ -47,9 +52,18 @@ export class StateDictionaryCreatePage implements OnInit {
   }
 
   ngOnInit() {
+    this.actuatorService.getHealthPetHelperService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
+
     this.imageService.getStateImages().subscribe({
       next: (list) => {
         this.listImages = list
+      },
+      error: () => {
+        this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", 500);
       }
     })
     this.getStateTemplates()
@@ -68,7 +82,6 @@ export class StateDictionaryCreatePage implements OnInit {
     this.stateDictionaryService.getStateTemplates().subscribe(
       {
         next: (list) => {
-          console.log(list)
           this.listStateTemplate = list
           for (let i = 0; i < list.length; i++) {
             this.options.push({label: list[i].name, value: list[i].id})
@@ -101,7 +114,6 @@ export class StateDictionaryCreatePage implements OnInit {
     this.name = record.name
     this.imageUuid = record.imageUuid
     this.description = record.description
-    this.description = record.description
 
     this.createDictionary()
 
@@ -117,6 +129,7 @@ export class StateDictionaryCreatePage implements OnInit {
           this.imageUuid = uuid
         },
         error: () => {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", 500);
         }
       }
     )
@@ -150,7 +163,7 @@ export class StateDictionaryCreatePage implements OnInit {
               this.toBack()
             },
             error: () => {
-              console.log()
+              this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", 500);
             }
           })
         },
@@ -161,7 +174,7 @@ export class StateDictionaryCreatePage implements OnInit {
           this.toBack()
         },
         error: () => {
-          console.log()
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", 500);
         }
       })
     }
