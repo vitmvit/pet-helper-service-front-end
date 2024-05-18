@@ -7,6 +7,7 @@ import {MessageModel} from "../../../model/entity/message.model";
 import {ChatModel} from "../../../model/entity/chat.model";
 import {MessageCreateDto} from "../../../model/create/message.create.dto";
 import {ErrorModel} from "../../../model/entity/error.model";
+import {ActuatorService} from "../../../service/actuator.service";
 
 @Component({
   selector: 'app-chat',
@@ -28,9 +29,16 @@ export class ChatPage implements OnInit {
 
   constructor(private sessionService: SessionService,
               private chatService: ChatService,
+              private actuatorService: ActuatorService,
               private userService: UserService,
               private router: Router,
               private route: ActivatedRoute) {
+    this.actuatorService.getHealthService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
+
     sessionService.checkLogin()
     route.params.subscribe(params => this.id = params["id"]);
   }
@@ -64,7 +72,7 @@ export class ChatPage implements OnInit {
           this.closedMessage = "Данный диалог завершен!"
         }
       },
-      error:()=>{
+      error: () => {
         this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", 500);
       }
     });
@@ -82,9 +90,5 @@ export class ChatPage implements OnInit {
         });
       }
     }
-  }
-
-  toChats() {
-    this.router.navigateByUrl('list-chats');
   }
 }

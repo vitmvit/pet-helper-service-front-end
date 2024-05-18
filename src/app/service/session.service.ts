@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
 
 @Injectable({providedIn: "root"})
 export class SessionService {
@@ -76,13 +75,13 @@ export class SessionService {
     if (!this.cookieService.check(this.login) || !this.cookieService.check(this.token)) {
       this.logOff();
     }
-    if (this.cookieService.check(this.login) && this.cookieService.check(this.token)) {
-      this.checkCurrentLogin(this.cookieService.get(this.login)).subscribe(response => {
-        if (!response) {
-          this.logOff();
-        }
-      });
-    }
+    // if (this.cookieService.check(this.login) && this.cookieService.check(this.token)) {
+    //   this.checkCurrentLogin(this.cookieService.get(this.login)).subscribe(response => {
+    //     if (!response) {
+    //       this.logOff();
+    //     }
+    //   });
+    // }
   }
 
   logOff() {
@@ -109,13 +108,13 @@ export class SessionService {
     }
   }
 
-  checkCurrentLogin(login: string): Observable<boolean> {
-    // @ts-ignore
-    return this.httpClient.get<boolean>(
-      "/users/current?login=" + login,
-      this.getHeaderToken()
-    );
-  }
+  // checkCurrentLogin(login: string): Observable<boolean> {
+  //   // @ts-ignore
+  //   return this.httpClient.get<boolean>(
+  //     "/users/current?login=" + login,
+  //     this.getHeaderToken()
+  //   );
+  // }
 
   getHeader(): object {
     return {
@@ -132,12 +131,6 @@ export class SessionService {
   getHeaderToken(): object {
     return {
       headers: new HttpHeaders()
-        // .set("Accept", "*/*")
-        // .set("Content-type", "application/json; charset=utf-8")
-        // .set("Access-Control-Allow-Origin", "*")
-        // .set("Access-Control-Allow-Methods", "OPTIONS, POST, PUT, GET, DELETE, PATCH")
-        // .set("Access-Control-Allow-Headers", "*")
-        // .set("Access-Control-Allow-Credentials", "true")
         .set("Authorization", "Bearer " + this.getToken())
     };
   }

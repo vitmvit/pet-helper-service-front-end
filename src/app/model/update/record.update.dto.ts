@@ -3,6 +3,8 @@ export class RecordUpdateDto {
   public id: number;
   public userLogin: string;
   public name: string;
+  public breed: string;
+  public animalType: string;
   public uuidAvatar: string;
   public dataBirthday: Date;
   public fullName: string;
@@ -13,6 +15,8 @@ export class RecordUpdateDto {
   constructor(id: number,
               userLogin: string,
               name: string,
+              breed: string,
+              animalType: string,
               uuidAvatar: string,
               dataBirthday: Date,
               fullName: string,
@@ -22,6 +26,8 @@ export class RecordUpdateDto {
     this.id = id;
     this.userLogin = userLogin;
     this.name = name;
+    this.breed = breed;
+    this.animalType = animalType;
     this.uuidAvatar = uuidAvatar;
     this.dataBirthday = dataBirthday;
     this.fullName = fullName;

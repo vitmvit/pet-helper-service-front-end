@@ -17,14 +17,14 @@ export class AuthService {
   // Метод для выполнения запроса на аутентификацию
   signIn(signInModel: SignInModel): Observable<TokenModel> {
     return this.httpClient.post<TokenModel>(
-      this.apiService.getApiHost + "/api/v1/auth/signIn", signInModel, this.headerService.getHeader()
+      this.apiService.getApiHost + "/api/v1/auth/signIn", signInModel, this.headerService.getHeaderToken()
     );
   }
 
   // Метод для выполнения запроса на аутентификацию
   signUp(signUpModel: SignInModel): Observable<TokenModel> {
     return this.httpClient.post<TokenModel>(
-      this.apiService.getApiHost + "/api/v1/auth/signUp", signUpModel, this.headerService.getHeader()
+      this.apiService.getApiHost + "/api/v1/auth/signUp", signUpModel, this.headerService.getHeaderToken()
     );
   }
 }

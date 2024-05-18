@@ -1,5 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SessionService} from "../../../service/session.service";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ImageService} from "../../../service/image.service";
 import {StateDictionaryModel} from "../../../model/entity/state.dictionary.model";
 import {Router} from "@angular/router";
@@ -10,7 +9,7 @@ import {ErrorModel} from "../../../model/entity/error.model";
   templateUrl: './state-component.component.html',
   styleUrls: ['./state-component.component.scss'],
 })
-export class StateComponentComponent implements OnInit {
+export class StateComponentComponent {
 
   recordVal!: StateDictionaryModel;
   base64!: string;
@@ -18,8 +17,7 @@ export class StateComponentComponent implements OnInit {
   errorModel!: ErrorModel | undefined;
   @Output() itemClick: EventEmitter<any> = new EventEmitter();
 
-  constructor(private sessionService: SessionService,
-              private imageService: ImageService,
+  constructor(private imageService: ImageService,
               private router: Router,) {
   }
 
@@ -31,9 +29,6 @@ export class StateComponentComponent implements OnInit {
   set record(value: StateDictionaryModel) {
     this.recordVal = value;
     this.getBase64(this.recordVal.uuid)
-  }
-
-  ngOnInit() {
   }
 
   onClick() {

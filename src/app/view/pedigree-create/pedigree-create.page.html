@@ -14,41 +14,45 @@
       <br>
       <div>
         <!-- Если notExistParentRecord не определен -->
-        @if(!this.notExistParentRecord){
+        @if (!this.notExistParentRecord) {
           <ion-label class="ion-padding-horizontal">Записи из существующих в системе:</ion-label>
-            <ion-grid>
-              <ion-row>
-                <ion-col (click)="setOpen(true)"><ion-button fill="outline">Добавить</ion-button></ion-col>
-                <ion-col></ion-col>
-                <ion-col></ion-col>
-                <ion-col>
-                  <!-- Кнопка для закрытия существующего родителя -->
-                  <ion-button (click)="closeExistParent()" fill="clear">
-                    <ion-icon slot="icon-only" name="close-outline"></ion-icon>
-                  </ion-button>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-            <!-- Если existParentRecord определен -->
-          @if(this.existParentRecord){
-          <!-- Компонент для отображения списка существующих записей -->
+          <ion-grid>
+            <ion-row>
+              <ion-col (click)="setOpen(true)">
+                <ion-button fill="outline">Добавить</ion-button>
+              </ion-col>
+              <ion-col></ion-col>
+              <ion-col></ion-col>
+              <ion-col>
+                <!-- Кнопка для закрытия существующего родителя -->
+                <ion-button (click)="closeExistParent()" fill="clear">
+                  <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <!-- Если existParentRecord определен -->
+          @if (this.existParentRecord) {
+            <!-- Компонент для отображения списка существующих записей -->
             <app-list-component
-            (itemClick)="confirm($event)"
-            [record]=existParentRecord></app-list-component>
+              (itemClick)="confirm($event)"
+              [record]=existParentRecord></app-list-component>
           }
         }
       </div>
       <hr>
       <!-- Если existParentRecord не определен -->
-      @if(!this.existParentRecord){
+      @if (!this.existParentRecord) {
         <ion-label class="ion-padding-horizontal">Записи отсутствующие в системе:</ion-label>
         <ion-grid>
           <ion-row>
-            <ion-col><ion-button (click)="alertShow()" fill="outline">Добавить</ion-button></ion-col>
+            <ion-col>
+              <ion-button (click)="alertShow()" fill="outline">Добавить</ion-button>
+            </ion-col>
             <ion-col></ion-col>
             <ion-col></ion-col>
             <ion-col>
-            <!-- Кнопка для закрытия несуществующего родителя -->
+              <!-- Кнопка для закрытия несуществующего родителя -->
               <ion-button (click)="closeNoExistParent()" fill="clear">
                 <ion-icon slot="icon-only" name="close-outline"></ion-icon>
               </ion-button>
@@ -56,14 +60,14 @@
           </ion-row>
         </ion-grid>
         <!-- Если notExistParentRecord определен -->
-        @if(this.notExistParentRecord){
+        @if (this.notExistParentRecord) {
           <ion-card mode="ios">
             <ion-card-header>
-              <ion-card-title>{{this.notExistParentRecord.name}}</ion-card-title>
-              <ion-card-subtitle>{{this.notExistParentRecord.sex}}</ion-card-subtitle>
+              <ion-card-title>{{ this.notExistParentRecord.name }}</ion-card-title>
+              <ion-card-subtitle>{{ this.notExistParentRecord.sex }}</ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
-              {{this.notExistParentRecord.description}}
+              {{ this.notExistParentRecord.description }}
             </ion-card-content>
           </ion-card>
         }
@@ -91,10 +95,10 @@
           </ion-header>
           <ion-content class="ion-padding">
             @for (item of listRecords; track item.id) {
-              @if(item.id!=this.recordId){
-              <app-list-component
-                (itemClick)="confirm($event)"
-                [record]=item></app-list-component>
+              @if (item.id != this.recordId) {
+                <app-list-component
+                  (itemClick)="confirm($event)"
+                  [record]=item></app-list-component>
               }
             } @empty {
               <ion-img class="img" alt="auth" src="../../../assets/img/empty.jpg"/>

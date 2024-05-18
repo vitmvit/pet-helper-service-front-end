@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {SessionService} from "../../service/session.service";
-import {ImageService} from "../../service/image.service";
-import {MenuController} from "@ionic/angular";
 import {PedigreeService} from "../../service/pedigree.service";
 import {RecordService} from "../../service/record.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -24,7 +22,6 @@ export class PedigreePage implements OnInit {
   recordId!: number;
   parentId!: number;
   pedigreeId!: number;
-  ownerId!: number;
   record!: RecordModel;
   currentPedigree!: PedigreeModel;
   parent1!: RecordModel[]; // Массив для хранения родителей существующих в системе
@@ -33,15 +30,19 @@ export class PedigreePage implements OnInit {
   errorModel!: ErrorModel | undefined;
 
   constructor(private sessionService: SessionService,
-              private imageService: ImageService,
               private loc: Location,
               private pedigreeService: PedigreeService,
               private notExistParentService: NotExistParentService,
-              private menu: MenuController,
               private recordService: RecordService,
               private router: Router,
               private actuatorService: ActuatorService,
               private route: ActivatedRoute) {
+    this.actuatorService.getHealthService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
+
     sessionService.checkLogin(); // Проверка авторизации пользователя
     route.params.subscribe(params => {
       this.recordId = params["id"];
@@ -50,11 +51,6 @@ export class PedigreePage implements OnInit {
   }
 
   ngOnInit() {
-    this.actuatorService.getHealthPetHelperService().subscribe({
-      error: () => {
-        this.router.navigateByUrl('page500');
-      }
-    })
     this.errorModel = undefined
     this.parent1 = [];
     this.parent2 = [];

@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { Page500PageRoutingModule } from './page500-routing.module';
+import {Page500PageRoutingModule} from './page500-routing.module';
 
-import { Page500Page } from './page500.page';
+import {Page500Page} from './page500.page';
 
 @NgModule({
   imports: [
@@ -17,4 +17,5 @@ import { Page500Page } from './page500.page';
   ],
   declarations: [Page500Page]
 })
-export class Page500PageModule {}
+export class Page500PageModule {
+}

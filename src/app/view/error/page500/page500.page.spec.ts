@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Page500Page } from './page500.page';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {Page500Page} from './page500.page';
 
 describe('Page500Page', () => {
   let component: Page500Page;

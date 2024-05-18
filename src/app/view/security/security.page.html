@@ -50,16 +50,18 @@
               <ion-thumbnail slot="start">
                 <ion-icon class="ion-margin" color="warning" size="large" name="bonfire-outline"></ion-icon>
               </ion-thumbnail>
-              <ion-label>Если вы подозреваете, что ваша учетная запись была взломана, вы можете обновить пароль прямо здесь</ion-label>
+              <ion-label>Если вы подозреваете, что ваша учетная запись была взломана, вы можете обновить пароль прямо
+                здесь
+              </ion-label>
             </ion-item>
           </ion-list>
         </ion-card-content>
       </ion-card>
       <!--      error module-->
-      @if(this.errorModel !== undefined){
+      @if (this.errorModel !== undefined) {
         <ion-card color="danger">
           <ion-card-content>
-            {{errorModel.message}}
+            {{ errorModel.message }}
           </ion-card-content>
         </ion-card>
       }

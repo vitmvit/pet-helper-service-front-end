@@ -4,19 +4,22 @@
     <ion-header>
       <ion-toolbar color="primary">
         <ion-buttons slot="start">
-          @if(this.displayData =="block"){
+          @if (this.displayData == "block") {
             <ion-back-button (click)="toHome()" default-href=""></ion-back-button>
-          }@else{
+          } @else {
             <ion-back-button (click)="toEditRecord()" default-href=""></ion-back-button>
           }
         </ion-buttons>
-        @if(this.record){
+        @if (this.record) {
           <!-- Если запись существует, отображается ее имя -->
-          <ion-title>{{this.record.name}}</ion-title>
-        }@else{
+          <ion-title>{{ this.record.name }}</ion-title>
+        } @else {
           <!-- Иначе отображается "Pet-Helper" -->
           <ion-title>Pet-Helper</ion-title>
         }
+        <ion-buttons slot="end" (click)="setOpenShowTable(true)">
+          <ion-icon class="ion-padding" name="document-attach-outline" size="large"></ion-icon>
+        </ion-buttons>
         <!-- Кнопка для удаления записи -->
         <ion-buttons id="delete-alert" slot="end">
           <ion-icon class="ion-padding" name="trash-outline" size="large"></ion-icon>
@@ -34,53 +37,73 @@
           ></app-image-component>
         </ion-card-header>
         <ion-card-content>
-          <ion-card-title>{{this.name}}</ion-card-title>
-          <ion-card-subtitle>{{this.fullName}}</ion-card-subtitle>
+          <ion-card-title>{{ this.name }}</ion-card-title>
+          <ion-card-subtitle>{{ this.fullName }}</ion-card-subtitle>
         </ion-card-content>
       </ion-card>
-      @if(this.errorModel !== undefined){
+      @if (this.errorModel !== undefined) {
         <ion-card color="danger">
           <ion-card-content>
-            {{errorModel.message}}
+            {{ errorModel.message }}
           </ion-card-content>
         </ion-card>
       }
       <!-- Если заполнены поля пола, даты рождения, полного имени или описания -->
-      @if(this.sex != null || this.dataBirthday != null || this.fullName != null || this.description != null){
+      @if (this.sex != null || this.dataBirthday != null || this.fullName != null || this.description != null || this.animalType != null || this.breed != null) {
         <ion-card mode="ios" style="display: {{this.displayData}}">
           <ion-card-content>
+            @if (this.animalType != null) {
+              <div class="item ios item-lines-none item-fill-none hydrated item-label"
+                   style="display: {{this.displayData}}">
+                <ion-label>Вид животного:</ion-label>
+                <ion-note slot="end">{{ animalType }}</ion-note>
+              </div>
+              <br>
+            }
+            @if (this.breed != null) {
+              <div class="item ios item-lines-none item-fill-none hydrated item-label"
+                   style="display: {{this.displayData}}">
+                <ion-label>Порода:</ion-label>
+                <ion-note slot="end">{{ breed }}</ion-note>
+              </div>
+              <br>
+            }
             <!--        sex-->
-            @if(this.sex != null){
-              <div class="item ios item-lines-none item-fill-none hydrated item-label" style="display: {{this.displayData}}">
+            @if (this.sex != null) {
+              <div class="item ios item-lines-none item-fill-none hydrated item-label"
+                   style="display: {{this.displayData}}">
                 <ion-label>Пол:</ion-label>
-                <ion-note slot="end">{{sex}}</ion-note>
+                <ion-note slot="end">{{ sex }}</ion-note>
               </div>
               <br>
             }
             <!--      /sex-->
             <!--      birthday-->
-            @if(this.dataBirthday != null){
-              <div class="item ios item-lines-none item-fill-none hydrated item-label" style="display: {{this.displayData}}">
+            @if (this.dataBirthday != null) {
+              <div class="item ios item-lines-none item-fill-none hydrated item-label"
+                   style="display: {{this.displayData}}">
                 <ion-label>Дата рождения:</ion-label>
-                <ion-note slot="end">{{dataBirthday | date}}</ion-note>
+                <ion-note slot="end">{{ dataBirthday | date }}</ion-note>
               </div>
               <br>
             }
             <!--      /birthday-->
             <!--      full name-->
-            @if(this.fullName != null){
-              <div class="item ios item-lines-none item-fill-none hydrated item-label" style="display: {{this.displayData}}">
+            @if (this.fullName != null) {
+              <div class="item ios item-lines-none item-fill-none hydrated item-label"
+                   style="display: {{this.displayData}}">
                 <ion-label>Полное имя:</ion-label>
-                <ion-note slot="end">{{fullName}}</ion-note>
+                <ion-note slot="end">{{ fullName }}</ion-note>
               </div>
               <br>
             }
             <!--      /full name-->
             <!--      description-->
-            @if(this.description != null){
-              <div class="item ios item-lines-none item-fill-none hydrated item-label" style="display: {{this.displayData}}">
+            @if (this.description != null) {
+              <div class="item ios item-lines-none item-fill-none hydrated item-label"
+                   style="display: {{this.displayData}}">
                 <ion-label>Заметки:</ion-label>
-                <ion-note slot="end">{{description}}</ion-note>
+                <ion-note slot="end">{{ description }}</ion-note>
               </div>
             }
             <!--      /description-->
@@ -95,15 +118,33 @@
             <h1 slot="label">Имя записи:</h1>
           </ion-input>
           <br>
+          <ion-input [(ngModel)]="animalType" labelPlacement="floating" mode="md" placeholder="Рептилия" type="text">
+            <h1 slot="label">Вид животного:</h1>
+          </ion-input>
+          <br>
+          <div style="text-align: center; padding-bottom: 10px">
+            <ion-button (click)="setOpenChoiceTypeAnimal(true, true)" mode="md">Выбрать вид животного</ion-button>
+          </div>
+          <br>
+          @if (this.animalType) {
+            <ion-input [(ngModel)]="breed" labelPlacement="floating" mode="md" placeholder="Красноухая" type="text">
+              <div slot="label">Порода
+              </div>
+            </ion-input>
+            <div style="text-align: center; padding-bottom: 10px">
+              <ion-button (click)="setOpenChoiceTypeAnimal(true, false)" mode="md">Выбрать породу</ion-button>
+            </div>
+            <br>
+          }
           <ion-select [(ngModel)]="this.sex" label="Пол:" placeholder="Пол питомца">
             @for (item of typeSex; track item) {
-              <ion-select-option value="{{item}}">{{item}}</ion-select-option>
+              <ion-select-option value="{{item[0]}}">{{ item[1] }}</ion-select-option>
             }
           </ion-select>
           <br>
           <div class="item ios item-lines-none item-fill-none hydrated item-label" id="open-modal2">
             <h2 slot="label">Дата рождения:</h2>
-            <ion-note slot="end">{{dataBirthday | date}}</ion-note>
+            <ion-note slot="end">{{ dataBirthday | date }}</ion-note>
           </div>
           <ion-modal [cssClass]="'bottom-end'" trigger="open-modal2">
             <ng-template>
@@ -133,7 +174,7 @@
           <input (change)="this.fileSelect($event)" accept="image/*" class="form-control" type="file"/>
         </ion-card-content>
       </ion-card>
-      @if(this.displayEdit =="none"){
+      @if (this.displayEdit == "none") {
         <ion-card mode="ios">
           <ion-card-content class="ion-text-center">
             <ion-card-title color="dark" mode="md">Родословная:</ion-card-title>
@@ -144,7 +185,7 @@
           </ion-card-content>
         </ion-card>
       }
-      @if(this.displayEdit =="block"){
+      @if (this.displayEdit == "block") {
         <ion-grid>
           <ion-row>
             <ion-col></ion-col>
@@ -158,7 +199,8 @@
           </ion-row>
         </ion-grid>
       }
-      @if(this.displayEdit =="none"){
+      @if (this.displayEdit == "none") {
+        <hr style="border: none; color: #3880ff; background-color: #3880ff; height: 2px;">
         <ion-card-title color="dark" mode="md" class="ion-text-center">Состояния:</ion-card-title>
         <ion-card mode="ios">
           <ion-card-content>
@@ -174,14 +216,16 @@
         </ion-card>
         <ion-grid>
           <ion-row>
-            @if(this.listStateDictionary){
+            @if (this.listStateDictionary) {
               @for (item of listStateDictionary; track item.id) {
                 <ion-col style="width: 40%">
                   <app-state-component
                     [record]=item></app-state-component>
                 </ion-col>
               } @empty {
-                <ion-img class="img" src="../../../assets/img/empty.jpg"/>
+                <div class="ion-text-center" style="text-align: center">
+                  <img class="img" src="../../../assets/img/empty_list_with_cat.jpg" style="width: 40%"/>
+                </div>
               }
             }
           </ion-row>
@@ -190,8 +234,67 @@
           <ion-row>
             <ion-col></ion-col>
             <ion-col class="ion-text-center">
-              <!-- Кнопка для сохранения данных -->
-              <ion-button mode="md" (click)="toCreateDictionary()">
+              <ion-button mode="md" (click)="toCreateStateDictionary()">
+                Добавить
+              </ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+        </ion-grid>
+        <hr style="border: none; color: #3880ff; background-color: #3880ff; height: 2px;">
+        <ion-card-title color="dark" mode="md" class="ion-text-center">Эвенты:</ion-card-title>
+        <ion-card mode="ios">
+          <ion-card-content>
+            <ion-list>
+              <ion-item lines="none">
+                <ion-thumbnail slot="start">
+                  <ion-icon class="ion-margin" color="warning" size="large" name="bonfire-outline"></ion-icon>
+                </ion-thumbnail>
+                <ion-label>Контролируйте уход за вашим питомцем</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+        @if (this.labels && this.labels.length > 0) {
+          <mbsc-datepicker
+            [display]="'inline'"
+            [labels]="labels"
+            (onTempChange)="dateClick($event)"
+          >
+          </mbsc-datepicker>
+        }
+        @if (this.selectedEventList) {
+          @for (item of selectedEventList; track item) {
+            <ion-item>
+              <ion-label>
+                <h2>{{ item.description }}</h2>
+                <p>{{ item.dateCreated | date }}</p>
+                <h3>{{ getDictionaryName(item.dictionaryId) }}</h3>
+              </ion-label>
+            </ion-item>
+          }
+        }
+        <ion-grid>
+          <ion-row>
+            @if (this.listEventDictionary) {
+              @for (item of listEventDictionary; track item.id) {
+                <ion-col style="width: 40%">
+                  <app-event-component
+                    [record]=item></app-event-component>
+                </ion-col>
+              } @empty {
+                <div class="ion-text-center" style="text-align: center">
+                  <img class="img" src="../../../assets/img/empty_list_with_cat.jpg" style="width: 40%"/>
+                </div>
+              }
+            }
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col class="ion-text-center">
+              <ion-button mode="md" (click)="toCreateEventDictionary()">
                 Добавить
               </ion-button>
             </ion-col>
@@ -199,10 +302,96 @@
           </ion-row>
         </ion-grid>
       }
+      <ion-modal [isOpen]="isModalOpenChoiceTypeAnimal">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-buttons slot="end">
+                <ion-button (click)="cancelChoiceTypeAnimal()">Отмена</ion-button>
+              </ion-buttons>
+              @if (this.check) {
+                <ion-title>Выберите вид животного</ion-title>
+              } @else {
+                <ion-title>Выберите породу животного</ion-title>
+              }
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <ion-searchbar
+              (ionInput)="getDataForTypeAnfBreed()"
+              [(ngModel)]="input"
+              animated=""
+              placeholder="Имя записи"
+              show-cancel-button="focus"
+            ></ion-searchbar>
+            <ion-list>
+              @if (this.check) {
+                @for (item of listAnimalTypes; track item.id) {
+                  <ion-item lines="none" (click)="confirmChoiceTypeAnimal(item)">
+                    <ion-label>{{ item.name }}</ion-label>
+                  </ion-item>
+                } @empty {
+                  <div class="ion-text-center" style="text-align: center">
+                    <img class="img" src="../../../assets/img/empty_list_with_cat.jpg" style="width: 40%"/>
+                  </div>
+                }
+              } @else {
+                @for (item of listBreeds; track item.id) {
+                  <ion-item lines="none" (click)="confirmChoiceTypeAnimal(item)">
+                    <ion-label>{{ item.name }}</ion-label>
+                  </ion-item>
+                } @empty {
+                  <div class="ion-text-center" style="text-align: center">
+                    <img class="img" src="../../../assets/img/empty_list_with_cat.jpg" style="width: 40%"/>
+                  </div>
+                }
+              }
+            </ion-list>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+      <ion-modal [isOpen]="isModalOpenShowTable">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-buttons slot="end">
+                <ion-button (click)="confirmShowTable($event)">Ок</ion-button>
+              </ion-buttons>
+              <ion-buttons slot="start">
+                <ion-button (click)="cancelShowTable()">Отмена</ion-button>
+              </ion-buttons>
+              <ion-title>Просмотр таблицы</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <div id="pdfTable">
+              <h3 style="text-align: center">Запись: {{ this.record.name }}</h3>
+              <table style="width: 100%">
+                <thead>
+                <tr>
+                  <th>№</th>
+                  <th>Дата заметки</th>
+                  <th>Содержание</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of labels; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item.date | date }}</td>
+                  <td>{{ item.text }}</td>
+                </tr>
+                </tbody>
+              </table>
+              <br>
+              <br>
+            </div>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
     </ion-content>
   </div>
   <ion-fab horizontal="end" slot="fixed" vertical="bottom">
-    @if(this.displayEdit =="none"){
+    @if (this.displayEdit == "none") {
       <ion-fab-button (click)="toEditRecord()">
         <ion-icon name="pencil-outline"></ion-icon>
       </ion-fab-button>

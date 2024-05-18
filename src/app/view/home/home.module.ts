@@ -19,4 +19,5 @@ import {CardComponentComponent} from "../component/card-component/card-component
   ],
   declarations: [HomePage, CardComponentComponent]
 })
-export class HomePageModule {}
+export class HomePageModule {
+}

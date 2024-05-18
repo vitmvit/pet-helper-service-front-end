@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {ActuatorService} from "../../../service/actuator.service";
 import {Router} from "@angular/router";
 
@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
   templateUrl: './page500.page.html',
   styleUrls: ['./page500.page.scss'],
 })
-export class Page500Page implements OnInit {
+export class Page500Page {
 
   constructor(
     private actuatorService: ActuatorService,
@@ -18,8 +18,5 @@ export class Page500Page implements OnInit {
         this.router.navigateByUrl('index');
       }
     })
-  }
-
-  ngOnInit() {
   }
 }

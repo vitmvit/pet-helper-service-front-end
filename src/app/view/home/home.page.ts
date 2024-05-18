@@ -4,8 +4,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MenuController} from "@ionic/angular";
 import {RecordService} from "../../service/record.service";
 import {RecordModel} from "../../model/entity/record.model";
-import {ImageService} from "../../service/image.service";
 import {ErrorModel} from "../../model/entity/error.model";
+import {ActuatorService} from "../../service/actuator.service";
 
 @Component({
   selector: 'app-home',
@@ -21,10 +21,16 @@ export class HomePage implements OnInit {
 
   constructor(private sessionService: SessionService,
               private menu: MenuController,
-              private imageService: ImageService,
               private recordService: RecordService,
+              private actuatorService: ActuatorService,
               private router: Router,
               private route: ActivatedRoute) {
+    this.actuatorService.getHealthService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
+
     sessionService.checkLogin();
     route.params.subscribe(params => {
       this.reload = params["reload"];

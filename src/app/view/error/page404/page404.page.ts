@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {SignInModel} from "../../../model/entity/sign.in.model";
-import {ErrorModel} from "../../../model/entity/error.model";
+import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
@@ -8,11 +6,9 @@ import {Router} from "@angular/router";
   templateUrl: './page404.page.html',
   styleUrls: ['./page404.page.scss'],
 })
-export class Page404Page implements OnInit {
+export class Page404Page {
 
-  constructor(private router: Router) { }
-
-  ngOnInit() {
+  constructor(private router: Router) {
   }
 
   toHome() {

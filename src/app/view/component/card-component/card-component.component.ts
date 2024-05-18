@@ -1,7 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {SessionService} from "../../../service/session.service";
+import {Component, Input} from '@angular/core';
 import {ImageService} from "../../../service/image.service";
-import {RecordService} from "../../../service/record.service";
 import {Router} from "@angular/router";
 import {RecordModel} from "../../../model/entity/record.model";
 import {ErrorModel} from "../../../model/entity/error.model";
@@ -11,15 +9,13 @@ import {ErrorModel} from "../../../model/entity/error.model";
   templateUrl: './card-component.component.html',
   styleUrls: ['./card-component.component.scss'],
 })
-export class CardComponentComponent implements OnInit {
+export class CardComponentComponent {
 
   recordVal!: RecordModel;
   base64!: string;
   errorModel!: ErrorModel | undefined;
 
-  constructor(private sessionService: SessionService,
-              private imageService: ImageService,
-              private recordService: RecordService,
+  constructor(private imageService: ImageService,
               private router: Router) {
   }
 
@@ -33,9 +29,6 @@ export class CardComponentComponent implements OnInit {
     this.getBase64(this.recordVal.uuidAvatar)
   }
 
-  ngOnInit() {
-  }
-
   // Получение строки base64 для изображения по UUID
   getBase64(uuid: string) {
     this.errorModel = undefined
@@ -44,8 +37,8 @@ export class CardComponentComponent implements OnInit {
         next: (response) => {
           this.base64 = response
         },
-        error: (fault2) => {
-          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault2.status);
+        error: (fault) => {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault.status);
         }
       }
     )

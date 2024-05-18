@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { Page404PageRoutingModule } from './page404-routing.module';
+import {Page404PageRoutingModule} from './page404-routing.module';
 
-import { Page404Page } from './page404.page';
+import {Page404Page} from './page404.page';
 
 @NgModule({
   imports: [
@@ -17,4 +17,5 @@ import { Page404Page } from './page404.page';
   ],
   declarations: [Page404Page]
 })
-export class Page404PageModule {}
+export class Page404PageModule {
+}

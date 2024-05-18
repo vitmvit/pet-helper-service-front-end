@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ImageService} from "../../../service/image.service";
 import {RecordModel} from "../../../model/entity/record.model";
 import {RecordService} from "../../../service/record.service";
@@ -9,7 +9,7 @@ import {ErrorModel} from "../../../model/entity/error.model";
   templateUrl: './image-component.component.html',
   styleUrls: ['./image-component.component.scss'],
 })
-export class ImageComponentComponent implements OnInit {
+export class ImageComponentComponent {
 
   record!: RecordModel;
   base64: string = "";
@@ -47,9 +47,6 @@ export class ImageComponentComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-  }
-
   // Метод для выполнения дополнительных действий при изменении imageUuid
   onImageUuidChange() {
     if (this.imageUuidVal.length > 0 && this.recordIdVal != undefined) {
@@ -65,8 +62,8 @@ export class ImageComponentComponent implements OnInit {
         next: (response) => {
           this.base64 = response
         },
-        error: (fault2) => {
-          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault2.status);
+        error: (fault) => {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault.status);
         }
       }
     )

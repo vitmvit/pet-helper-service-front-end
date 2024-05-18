@@ -3,7 +3,7 @@
     <!--    title-->
     <ion-content>
       <!-- Проверка наличия записи this.record -->
-      @if(this.record) {
+      @if (this.record) {
         <ion-card mode="ios">
           <ion-card-header>
             <!-- Отображение аватара записи с помощью компонента app-image-component -->
@@ -32,7 +32,9 @@
         </ion-card-content>
       </ion-card>
       <ion-item lines="none" style="text-align: justify;">
-        <ion-label color="dark"> Карточка родителя белого цвета - это родитель существующий в системе, серого - родитель который не занесен в систему как полноценная запись</ion-label>
+        <ion-label color="dark"> Карточка родителя белого цвета - это родитель существующий в системе, серого - родитель
+          который не занесен в систему как полноценная запись
+        </ion-label>
       </ion-item>
       <!-- Цикл для отображения существующих родителей (parent1) -->
       @for (item of parent1; track item.id) {
@@ -103,7 +105,7 @@
         </ion-card>
       }
       <!-- Проверка, что количество родителей меньше 2 -->
-      @if(this.count < 2) {
+      @if (this.count < 2) {
         <ion-grid>
           <ion-row>
             <ion-col></ion-col>

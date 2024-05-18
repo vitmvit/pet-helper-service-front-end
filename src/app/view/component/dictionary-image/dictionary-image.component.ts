@@ -1,5 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SessionService} from "../../../service/session.service";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ImageService} from "../../../service/image.service";
 import {ImageModel} from "../../../model/entity/image.model";
 import {ErrorModel} from "../../../model/entity/error.model";
@@ -9,15 +8,14 @@ import {ErrorModel} from "../../../model/entity/error.model";
   templateUrl: './dictionary-image.component.html',
   styleUrls: ['./dictionary-image.component.scss'],
 })
-export class DictionaryImageComponent implements OnInit {
+export class DictionaryImageComponent {
 
   recordVal!: ImageModel;
   base64!: string;
   errorModel!: ErrorModel | undefined;
   @Output() itemClick: EventEmitter<any> = new EventEmitter();
 
-  constructor(private sessionService: SessionService,
-              private imageService: ImageService) {
+  constructor(private imageService: ImageService) {
   }
 
   // Геттер для получения модели изображения
@@ -31,9 +29,6 @@ export class DictionaryImageComponent implements OnInit {
     this.recordVal = value;
     // Получение base64-строки изображения при установке модели
     this.getBase64(this.recordVal.generatedName);
-  }
-
-  ngOnInit() {
   }
 
   // Метод, вызываемый при клике на компонент

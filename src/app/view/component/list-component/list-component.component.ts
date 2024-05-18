@@ -1,5 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SessionService} from "../../../service/session.service";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ImageService} from "../../../service/image.service";
 import {RecordModel} from "../../../model/entity/record.model";
 import {ErrorModel} from "../../../model/entity/error.model";
@@ -9,15 +8,14 @@ import {ErrorModel} from "../../../model/entity/error.model";
   templateUrl: './list-component.component.html',
   styleUrls: ['./list-component.component.scss'],
 })
-export class ListComponentComponent implements OnInit {
+export class ListComponentComponent {
 
   recordVal!: RecordModel;
   base64!: string;
   errorModel!: ErrorModel | undefined;
   @Output() itemClick: EventEmitter<any> = new EventEmitter();
 
-  constructor(private sessionService: SessionService,
-              private imageService: ImageService) {
+  constructor(private imageService: ImageService) {
   }
 
   get record(): RecordModel {
@@ -28,9 +26,6 @@ export class ListComponentComponent implements OnInit {
   set record(value: RecordModel) {
     this.recordVal = value;
     this.getBase64(this.recordVal.uuidAvatar)
-  }
-
-  ngOnInit() {
   }
 
   onClick() {
@@ -45,8 +40,8 @@ export class ListComponentComponent implements OnInit {
         next: (response) => {
           this.base64 = response
         },
-        error: (fault2) => {
-          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault2.status);
+        error: (fault) => {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault.status);
         }
       }
     )

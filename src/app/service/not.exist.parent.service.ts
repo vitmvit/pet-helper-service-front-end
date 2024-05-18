@@ -23,7 +23,7 @@ export class NotExistParentService {
 
   createParent(dto: NotExistParentCreateDto): Observable<NotExistParentModel> {
     return this.httpClient.post<NotExistParentModel>(
-      this.apiService.getApiHost + "/api/v1/parents",
+      this.apiService.getApiHost + "8085/api/v1/parents",
       dto,
       this.sessionService.getHeaderToken()
     );
@@ -31,7 +31,7 @@ export class NotExistParentService {
 
   deleteParent(id: number): Observable<void> {
     return this.httpClient.delete<void>(
-      this.apiService.getApiHost + "/api/v1/parents/" + id,
+      this.apiService.getApiHost + "8085/api/v1/parents/" + id,
       this.sessionService.getHeaderToken()
     );
   }

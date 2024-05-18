@@ -12,6 +12,8 @@ import {StateCreateDto} from "../../model/create/state.create.dto";
 import {isNumber} from "chart.js/helpers";
 import {ImageModel} from "../../model/entity/image.model";
 import {StateDictionaryUpdateDto} from "../../model/update/state.dictionary.update.dto";
+import domtoimage from "dom-to-image";
+import jsPDF from "jspdf";
 import {ActuatorService} from "../../service/actuator.service";
 
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale);
@@ -46,7 +48,8 @@ export class StateDictionaryPage implements OnInit {
   displayEdit!: string
   displayData!: string
 
-  isModalOpen2 = false;
+  isModalOpenShowTable = false;
+  isModalOpenAddPoint = false;
   isModalOpen = false;
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('lineCanvas') private lineCanvas!: ElementRef;
@@ -58,6 +61,12 @@ export class StateDictionaryPage implements OnInit {
               private router: Router,
               private loc: Location,
               private route: ActivatedRoute) {
+    this.actuatorService.getHealthService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
+
     sessionService.checkLogin();
     route.params.subscribe(params => {
       this.dictionaryId = params["id"];
@@ -66,12 +75,6 @@ export class StateDictionaryPage implements OnInit {
   }
 
   ngOnInit() {
-    this.actuatorService.getHealthPetHelperService().subscribe({
-      error: () => {
-        this.router.navigateByUrl('page500');
-      }
-    })
-
     this.displayEdit = "none"
     this.displayData = "block"
     this.display = "none"
@@ -85,56 +88,23 @@ export class StateDictionaryPage implements OnInit {
     this.lineChartMethod();
   }
 
-  // Метод для открытия/закрытия модального окна
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
-  }
+  toPdf() {
+    const dashboard = document.getElementById('pdfTable');
 
-  setOpen2(isOpen: boolean) {
-    this.imageService.getStateImages().subscribe({
-      next: (list) => {
-        this.listImages = list
-      }
-    })
-    this.isModalOpen2 = isOpen;
-  }
+    if (dashboard) {
+      const dashboardHeight = dashboard.clientHeight;
+      const dashboardWidth = dashboard.clientWidth;
+      const options = {background: 'white', width: dashboardWidth, height: dashboardHeight};
+      domtoimage.toPng(dashboard, options).then((imgData) => {
+        const doc = new jsPDF(dashboardWidth > dashboardHeight ? 'l' : 'p', 'mm', [dashboardWidth, dashboardHeight]);
+        const imgProps = doc.getImageProperties(imgData);
+        const pdfWidth = doc.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-  // Метод для отмены выбора родителя в модальном окне
-  cancel() {
-    this.isModalOpen = false;
-    this.modal.dismiss(null, 'cancel');
-  }
-
-  cancel2() {
-    this.isModalOpen2 = false;
-    this.modal.dismiss(null, 'cancel');
-  }
-
-  confirm(record: any) {
-    if (isNumber(+this.value)) {
-      this.stateDictionaryService.createState(new StateCreateDto(this.dictionaryId, this.value, this.descriptionState, this.dateForCheck)).subscribe(
-        {
-          next: (model) => {
-            this.getData()
-            this.isModalOpen = false;
-            this.modal.dismiss(null, 'confirm');
-
-            this.value = 0
-            this.descriptionState = ""
-            this.dateForCheck = new Date().toISOString()
-
-            this.reloadPage()
-          }
-        }
-      )
+        doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        doc.save(this.dictionary.name + '_график_pdf.pdf');
+      });
     }
-  }
-
-  confirm2(record: any) {
-    this.newImage = record.generatedName;
-    console.log(this.newImage)
-    this.isModalOpen2 = false;
-    this.modal.dismiss(null, 'confirm');
   }
 
   toEditRecord() {
@@ -259,6 +229,76 @@ export class StateDictionaryPage implements OnInit {
         this.isActive = false
       }
     })
+  }
+
+  setOpenShowTable(isOpen: boolean) {
+    this.isModalOpenShowTable = isOpen;
+    this.toPdf()
+  }
+
+  setOpenAddPoint(isOpen: boolean) {
+    this.imageService.getStateImages().subscribe({
+      next: (list) => {
+        this.listImages = list
+      }
+    })
+    this.isModalOpenAddPoint = isOpen;
+  }
+
+  // Метод для открытия/закрытия модального окна
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+
+  // Метод для отмены выбора родителя в модальном окне
+  cancelShowTable() {
+    this.isModalOpenShowTable = false;
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  // Метод для отмены выбора родителя в модальном окне
+  cancel() {
+    this.isModalOpen = false;
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  cancelAddPoint() {
+    this.isModalOpenAddPoint = false;
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  // Метод для подтверждения выбора родителя в модальном окне
+  confirmShowTable(item: any) {
+    this.toPdf()
+    this.isModalOpenShowTable = false;
+    this.modal.dismiss(null, 'confirm');
+  }
+
+  confirm(record: any) {
+    if (isNumber(+this.value)) {
+      this.stateDictionaryService.createState(new StateCreateDto(this.dictionaryId, this.value, this.descriptionState, this.dateForCheck)).subscribe(
+        {
+          next: (model) => {
+            this.getData()
+            this.isModalOpen = false;
+            this.modal.dismiss(null, 'confirm');
+
+            this.value = 0
+            this.descriptionState = ""
+            this.dateForCheck = new Date().toISOString()
+
+            this.reloadPage()
+          }
+        }
+      )
+    }
+  }
+
+  confirmAddPoint(record: any) {
+    this.newImage = record.generatedName;
+    console.log(this.newImage)
+    this.isModalOpenAddPoint = false;
+    this.modal.dismiss(null, 'confirm');
   }
 
   reloadPage(): void {

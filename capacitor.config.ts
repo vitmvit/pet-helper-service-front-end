@@ -5,7 +5,8 @@ const config: CapacitorConfig = {
   appName: 'pet-helper-service-front-end',
   webDir: 'www',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'http',
+    cleartext: true
   }
 };
 

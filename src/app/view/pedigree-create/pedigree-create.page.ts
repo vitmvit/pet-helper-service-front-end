@@ -41,15 +41,16 @@ export class PedigreeCreatePage implements OnInit {
               private router: Router,
               private route: ActivatedRoute
   ) {
-    sessionService.checkLogin();
-  }
-
-  ngOnInit() {
-    this.actuatorService.getHealthPetHelperService().subscribe({
+    this.actuatorService.getHealthService().subscribe({
       error: () => {
         this.router.navigateByUrl('page500');
       }
     })
+
+    sessionService.checkLogin();
+  }
+
+  ngOnInit() {
     // Получение идентификатора записи из параметров маршрута
     this.route.params.subscribe(params => this.recordId = params["id"])
     this.getAllRecords()
@@ -91,41 +92,11 @@ export class PedigreeCreatePage implements OnInit {
   getAllRecords() {
     this.recordService.getMyRecords(this.sessionService.getLogin()).subscribe({
       next: (listRecord) => {
-        console.log(listRecord)
         this.listRecords = listRecord
       },
       error: () => {
       }
     })
-  }
-
-  // Метод для открытия/закрытия модального окна
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
-  }
-
-  // Метод для отмены выбора родителя в модальном окне
-  cancel() {
-    this.isModalOpen = false;
-    this.modal.dismiss(null, 'cancel');
-  }
-
-  // Метод для подтверждения выбора родителя в модальном окне
-  confirm(record: any) {
-    this.existParentRecord = record;
-
-    this.isModalOpen = false;
-    this.modal.dismiss(null, 'confirm');
-  }
-
-  // Метод для закрытия (удаления) существующего родителя
-  closeExistParent() {
-    this.existParentRecord = undefined
-  }
-
-  // Метод для закрытия (удаления) несуществующего родителя
-  closeNoExistParent() {
-    this.notExistParentRecord = undefined
   }
 
   // Метод для сохранения данных
@@ -154,7 +125,7 @@ export class PedigreeCreatePage implements OnInit {
   addExistRecordInPedigree(model: PedigreeModel, parentExistModel: RecordModel) {
     if (!this.currentPedigree.parentExistOneId) {
       this.pedigreeService.updatePedigree(new PedigreeUpdateDto(this.currentPedigree.id, this.recordId, parentExistModel.id, this.currentPedigree.parentExistTwoId, this.currentPedigree.parentNotExistOneId, this.currentPedigree.parentNotExistTwoId)).subscribe({
-        next: (model) => {
+        next: () => {
           this.toBack()
         },
         error: (fault) => {
@@ -163,7 +134,7 @@ export class PedigreeCreatePage implements OnInit {
       })
     } else {
       this.pedigreeService.updatePedigree(new PedigreeUpdateDto(this.currentPedigree.id, this.recordId, this.currentPedigree.parentExistOneId, parentExistModel.id, this.currentPedigree.parentNotExistOneId, this.currentPedigree.parentNotExistTwoId)).subscribe({
-        next: (model) => {
+        next: () => {
           this.toBack()
         },
         error: (fault) => {
@@ -181,7 +152,7 @@ export class PedigreeCreatePage implements OnInit {
         next: (dto) => {
           if (!this.currentPedigree.parentNotExistOneId) {
             this.pedigreeService.updatePedigree(new PedigreeUpdateDto(this.currentPedigree.id, this.recordId, this.currentPedigree.parentExistOneId, this.currentPedigree.parentExistTwoId, dto.id, this.currentPedigree.parentNotExistTwoId)).subscribe({
-              next: (model) => {
+              next: () => {
                 this.toBack()
               },
               error: (fault) => {
@@ -204,6 +175,35 @@ export class PedigreeCreatePage implements OnInit {
         }
       }
     )
+  }
+
+  // Метод для закрытия (удаления) существующего родителя
+  closeExistParent() {
+    this.existParentRecord = undefined
+  }
+
+  // Метод для закрытия (удаления) несуществующего родителя
+  closeNoExistParent() {
+    this.notExistParentRecord = undefined
+  }
+
+  // Метод для открытия/закрытия модального окна
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+
+  // Метод для отмены выбора родителя в модальном окне
+  cancel() {
+    this.isModalOpen = false;
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  // Метод для подтверждения выбора родителя в модальном окне
+  confirm(record: any) {
+    this.existParentRecord = record;
+
+    this.isModalOpen = false;
+    this.modal.dismiss(null, 'confirm');
   }
 
   toBack() {

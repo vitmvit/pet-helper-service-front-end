@@ -25,12 +25,6 @@ export class HeaderService {
   getHeaderToken(): object {
     return {
       headers: new HttpHeaders()
-        // .set("Accept", "*/*")
-        // .set("Content-type", "application/json; charset=utf-8")
-        // .set("Access-Control-Allow-Origin", "*")
-        // .set("Access-Control-Allow-Methods", "OPTIONS, POST, PUT, GET, DELETE, PATCH")
-        // .set("Access-Control-Allow-Headers", "*")
-        // .set("Access-Control-Allow-Credentials", "true")
         .set("Authorization", "Bearer " + this.sessionService.getToken())
     };
   }

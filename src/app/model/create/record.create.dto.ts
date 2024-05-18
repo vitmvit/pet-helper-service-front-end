@@ -2,6 +2,8 @@ export class RecordCreateDto {
 
   public userLogin: string;
   public name: string;
+  public breed: string;
+  public animalType: string;
   public uuidAvatar: string;
   public dataBirthday: string;
   public fullName: string;
@@ -10,6 +12,8 @@ export class RecordCreateDto {
 
   constructor(userLogin: string,
               name: string,
+              breed: string,
+              animalType: string,
               uuidAvatar: string,
               dataBirthday: string,
               fullName: string,
@@ -17,6 +21,8 @@ export class RecordCreateDto {
               description: string) {
     this.userLogin = userLogin;
     this.name = name;
+    this.breed = breed;
+    this.animalType = animalType;
     this.uuidAvatar = uuidAvatar;
     this.dataBirthday = dataBirthday;
     this.fullName = fullName;

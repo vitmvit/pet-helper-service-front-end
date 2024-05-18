@@ -11,16 +11,16 @@ import {DictionaryImageComponent} from "../component/dictionary-image/dictionary
 import {TemplateImageComponent} from "../component/template-image/template-image.component";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        IonicModule,
-        StateDictionaryCreatePageRoutingModule
-    ],
-    exports: [
-        DictionaryImageComponent
-    ],
-    declarations: [StateDictionaryCreatePage, DictionaryImageComponent, TemplateImageComponent]
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    StateDictionaryCreatePageRoutingModule
+  ],
+  exports: [
+    DictionaryImageComponent
+  ],
+  declarations: [StateDictionaryCreatePage, DictionaryImageComponent, TemplateImageComponent]
 })
 export class StateDictionaryCreatePageModule {
 }

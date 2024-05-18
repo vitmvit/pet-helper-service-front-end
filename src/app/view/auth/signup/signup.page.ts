@@ -6,6 +6,7 @@ import {UserService} from "../../../service/user.service";
 import {Router} from "@angular/router";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {SignUpModel} from "../../../model/entity/sign.up.model";
+import {ActuatorService} from "../../../service/actuator.service";
 
 @Component({
   selector: 'app-signup',
@@ -22,9 +23,15 @@ export class SignupPage implements OnInit {
 
   constructor(private sessionService: SessionService,
               private authService: AuthService,
+              private actuatorService: ActuatorService,
               private userService: UserService,
               private router: Router
   ) {
+    this.actuatorService.getHealthService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
     this.sessionService.clear();
   }
 

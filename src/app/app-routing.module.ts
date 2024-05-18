@@ -113,10 +113,34 @@ const routes: Routes = [
     path: 'state-dictionary-create/:id',
     loadChildren: () => import('./view/state-dictionary-create/state-dictionary-create.module').then(m => m.StateDictionaryCreatePageModule)
   },
+  // event-dictionary
+  {
+    path: 'event-dictionary',
+    loadChildren: () => import('./view/event-dictionary/event-dictionary.module').then(m => m.EventDictionaryPageModule)
+  },
+  {
+    path: 'event-dictionary/:id',
+    loadChildren: () => import('./view/event-dictionary/event-dictionary.module').then(m => m.EventDictionaryPageModule)
+  },
+  {
+    path: 'event-dictionary/:id/:uuid',
+    loadChildren: () => import('./view/event-dictionary/event-dictionary.module').then(m => m.EventDictionaryPageModule)
+  },
+  // event-dictionary-create
+  {
+    path: 'event-dictionary-create',
+    loadChildren: () => import('./view/event-dictionary-create/event-dictionary-create.module').then(m => m.EventDictionaryCreatePageModule)
+  },
+  {
+    path: 'event-dictionary-create/:id',
+    loadChildren: () => import('./view/event-dictionary-create/event-dictionary-create.module').then(m => m.EventDictionaryCreatePageModule)
+  },
+  // 500
   {
     path: 'page500',
     loadChildren: () => import('./view/error/page500/page500.module').then(m => m.Page500PageModule)
   },
+  // 404
   {
     path: '**',
     loadChildren: () => import('./view/error/page404/page404.module').then(m => m.Page404PageModule)
@@ -125,8 +149,9 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

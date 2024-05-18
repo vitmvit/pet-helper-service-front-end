@@ -3,9 +3,9 @@ import {SessionService} from "../../service/session.service";
 import {MenuController} from "@ionic/angular";
 import {Router} from "@angular/router";
 import {ErrorModel} from "../../model/entity/error.model";
-import {AuthService} from "../../service/auth.service";
 import {UserService} from "../../service/user.service";
 import {PasswordUpdateDto} from "../../model/update/password.updare.dto";
+import {ActuatorService} from "../../service/actuator.service";
 
 @Component({
   selector: 'app-security',
@@ -37,10 +37,16 @@ export class SecurityPage implements OnInit {
   ];
 
   constructor(private sessionService: SessionService,
-              private authService: AuthService,
               private userService: UserService,
+              private actuatorService: ActuatorService,
               private menu: MenuController,
               private router: Router) {
+    this.actuatorService.getHealthService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
+
     sessionService.checkLogin();
   }
 
@@ -48,18 +54,7 @@ export class SecurityPage implements OnInit {
     this.oldPassword = "";
     this.newPassword = "";
     this.confirmPassword = "";
-
     this.errorModel = undefined
-  }
-
-  toSupport() {
-    this.closeMenu()
-    this.router.navigateByUrl('list-chats');
-  }
-
-  toSecurity() {
-    this.closeMenu()
-    this.router.navigateByUrl('security');
   }
 
   updatePassword() {
@@ -70,9 +65,9 @@ export class SecurityPage implements OnInit {
           this.logOff();
         },
         error: (fault) => {
-          if(fault.status == 500){
+          if (fault.status == 500) {
             this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault.status)
-          }else{
+          } else {
             this.errorModel = new ErrorModel("Перепроверьте данные!", fault.status)
           }
         }
@@ -80,6 +75,11 @@ export class SecurityPage implements OnInit {
     } else {
       this.errorModel = new ErrorModel("Необходимо заполнить все поля!", 404)
     }
+  }
+
+  toSupport() {
+    this.closeMenu()
+    this.router.navigateByUrl('list-chats');
   }
 
   openMenu() {

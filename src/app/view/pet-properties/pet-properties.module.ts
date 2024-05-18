@@ -10,6 +10,8 @@ import {PetPropertiesPage} from './pet-properties.page';
 import {ImageComponentComponent} from "../component/image-component/image-component.component";
 import {HomePageModule} from "../home/home.module";
 import {StateComponentComponent} from "../component/state-component/state-component.component";
+import {EventComponentComponent} from "../component/event-component/event-component.component";
+import {MbscDatepickerModule} from "@mobiscroll/angular";
 
 @NgModule({
   imports: [
@@ -17,12 +19,13 @@ import {StateComponentComponent} from "../component/state-component/state-compon
     FormsModule,
     IonicModule,
     PetPropertiesPageRoutingModule,
-    HomePageModule
+    HomePageModule,
+    MbscDatepickerModule
   ],
   exports: [
     ImageComponentComponent
   ],
-  declarations: [PetPropertiesPage, ImageComponentComponent, StateComponentComponent]
+  declarations: [PetPropertiesPage, ImageComponentComponent, StateComponentComponent, EventComponentComponent]
 })
 export class PetPropertiesPageModule {
 }

@@ -1,5 +1,5 @@
 export const rest = {
-  apiHost: 'http://192.168.1.28:8080'
+  apiHost: 'http://192.168.1.28:'
 }
 
 export const environment = {

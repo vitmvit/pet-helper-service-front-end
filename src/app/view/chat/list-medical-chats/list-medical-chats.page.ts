@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {ChatModel} from "../../../model/entity/chat.model";
 import {SessionService} from "../../../service/session.service";
 import {ChatService} from "../../../service/chat.service";
-import {UserService} from "../../../service/user.service";
 import {MenuController} from "@ionic/angular";
 import {Router} from "@angular/router";
 import {ChatCreateDto} from "../../../model/create/chat.create.dto";
 import {ErrorModel} from "../../../model/entity/error.model";
+import {ActuatorService} from "../../../service/actuator.service";
 
 @Component({
   selector: 'app-list-medical-chats',
@@ -21,10 +21,16 @@ export class ListMedicalChatsPage implements OnInit {
   constructor(
     private sessionService: SessionService,
     private chatService: ChatService,
-    private userService: UserService,
+    private actuatorService: ActuatorService,
     private menu: MenuController,
     private router: Router
   ) {
+    this.actuatorService.getHealthService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
+
     // Проверка авторизации пользователя
     sessionService.checkLogin();
   }

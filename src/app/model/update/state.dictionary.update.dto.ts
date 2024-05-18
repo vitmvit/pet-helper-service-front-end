@@ -10,10 +10,10 @@ export class StateDictionaryUpdateDto {
   constructor(
     id: number,
     recordId: number,
-              name: string,
-              isActive: boolean,
-              uuid: string,
-              description: string
+    name: string,
+    isActive: boolean,
+    uuid: string,
+    description: string
   ) {
     this.id = id;
     this.recordId = recordId;

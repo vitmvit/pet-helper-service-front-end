@@ -61,16 +61,16 @@
     </ion-header>
     <!--    /title-->
     <ion-content>
-      @if(this.errorModel !== undefined){
+      @if (this.errorModel !== undefined) {
         <ion-card color="danger">
           <ion-card-content>
-            {{errorModel.message}}
+            {{ errorModel.message }}
           </ion-card-content>
         </ion-card>
       }
       @for (item of listRecords; track item.id) {
         <app-card-component
-        [record] = item
+          [record]=item
         ></app-card-component>
       } @empty {
         <ion-img class="img" src="../../../assets/img/empty.jpg"/>

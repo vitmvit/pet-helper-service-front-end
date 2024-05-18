@@ -1,5 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SessionService} from "../../../service/session.service";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ImageService} from "../../../service/image.service";
 import {StateTemplateModel} from "../../../model/entity/state.template.model";
 import {ErrorModel} from "../../../model/entity/error.model";
@@ -9,15 +8,14 @@ import {ErrorModel} from "../../../model/entity/error.model";
   templateUrl: './template-image.component.html',
   styleUrls: ['./template-image.component.scss'],
 })
-export class TemplateImageComponent implements OnInit {
+export class TemplateImageComponent {
 
   recordVal!: StateTemplateModel;
   base64!: string;
   errorModel!: ErrorModel | undefined;
   @Output() itemClick: EventEmitter<any> = new EventEmitter();
 
-  constructor(private sessionService: SessionService,
-              private imageService: ImageService) {
+  constructor(private imageService: ImageService) {
   }
 
   // Геттер для получения модели шаблона
@@ -31,9 +29,6 @@ export class TemplateImageComponent implements OnInit {
     this.recordVal = value;
     // Получение base64-строки изображения при установке модели
     this.getBase64(this.recordVal.uuidImage);
-  }
-
-  ngOnInit() {
   }
 
   // Метод, вызываемый при клике на компонент
@@ -50,8 +45,8 @@ export class TemplateImageComponent implements OnInit {
         next: (response) => {
           this.base64 = response;
         },
-        error: (fault2) => {
-          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault2.status);
+        error: (fault) => {
+          this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault.status);
         }
       }
     );

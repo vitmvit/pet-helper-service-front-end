@@ -6,6 +6,7 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {ErrorModel} from "../../../model/entity/error.model";
 import {UserService} from "../../../service/user.service";
 import {Router} from "@angular/router";
+import {ActuatorService} from "../../../service/actuator.service";
 
 @Component({
   selector: 'app-login',
@@ -20,9 +21,15 @@ export class LoginPage implements OnInit {
 
   constructor(private sessionService: SessionService,
               private authService: AuthService,
+              private actuatorService: ActuatorService,
               private userService: UserService,
               private router: Router
   ) {
+    this.actuatorService.getHealthService().subscribe({
+      error: () => {
+        this.router.navigateByUrl('page500');
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -48,10 +55,12 @@ export class LoginPage implements OnInit {
                 }
               },
               error: (fault2) => {
+                console.log("::::")
                 this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault2.status);
               }
             });
           } else {
+            console.log("????")
             this.errorModel = new ErrorModel("Перепроверьте введенные данные!", 404);
           }
         } else {
@@ -62,7 +71,7 @@ export class LoginPage implements OnInit {
         if (fault1.status == 500) {
           this.errorModel = new ErrorModel("Возникла непредвиденная ошибка на стороне сервера. Перезагрузите старницу позже!", fault1.status);
         } else {
-          this.errorModel = new ErrorModel("Перепроверьте введенные данные!", 404);
+          this.errorModel = new ErrorModel("Перепроверьте введенные данные!", fault1.status);
         }
       }
     });
